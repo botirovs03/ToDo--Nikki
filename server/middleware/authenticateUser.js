@@ -1,25 +1,30 @@
-// middleware/authenticateUser.js
-const jwt = require("jsonwebtoken");
-const SECRET_KEY = "your_secret_key_here";
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'your_secret_key'; // Replace with your actual secret key
 
 function authenticateUser(req, res, next) {
-  const token = req.headers.authorization.split(" ")[1];
-  //Authorization: 'Bearer TOKEN'
-  if (!token) {
-    res
-      .status(200)
-      .json({ success: false, message: "Error! Token was not provided." });
-  }
-  //Decoding the token
+    // Get the token from the request headers
+    const token = req.headers.authorization.split(' ')[1];
 
-  try {
-    const decodedToken = jwt.verify(token, SECRET_KEY);
-    req.userId = decodedToken.userId; // Make userId available in subsequent middleware or routes
-    next(); // Move on to the next middleware or route handler
-  } catch (error) {
-    console.error(error);
-    res.status(401).json({ error: "Unauthorized" });
-  }
+    // Check if the token is missing
+    if(!token){
+        console.error('Token is missing');
+        return res.status(401).json({ message: 'Missing token' });
+    }
+
+    try {
+        // Verify the token using the secret key
+        const decodedToken = jwt.verify(token, SECRET_KEY );
+
+        console.log('Decoded Token:', decodedToken);
+        // Attach the decoded payload to the request object for further use
+        req.userId = decodedToken.userId;
+
+        console.log(req.userId);
+        // Continue to the next middleware or route handler
+        next();
+    } catch (error) {
+        return res.status(401).json({ message: 'Invalid token' });
+    }
 }
 
 module.exports = authenticateUser;
