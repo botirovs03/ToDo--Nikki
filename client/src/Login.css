@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 *,
 *::before,
 *::after{
@@ -51,7 +52,12 @@ label {
     letter-spacing: 0.26px;
 }
 
-input {
+label.inline {
+	display: inline;
+	margin-left:  10px;
+}
+
+.form-input {
     display: block;
     margin-bottom: 15px;
     width: 319px;

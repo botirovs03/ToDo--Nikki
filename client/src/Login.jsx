@@ -1,5 +1,6 @@
 import React from "react";
-import "./Login.css"; 
+import './Login.css'
+
 
 function Login(props) {
   const [remember, setRemember] = React.useState(false);
@@ -28,10 +29,10 @@ function Login(props) {
         <span>organize your work</span>
         <form action="" method="">
           <label htmlFor="fname">Email</label>
-          <input name="firstname" type="text" placeholder="Write your email here" required />
+          <input class="form-input" name="firstname" type="text" placeholder="Write your email here" required />
 
           <label htmlFor="password">password</label>
-          <input name="password" type="password" placeholder="Create a secure password" required />
+          <input class="form-input" name="password" type="password" placeholder="Create a secure password" required />
 
           <div className="form-group">
             <input
@@ -40,8 +41,7 @@ function Login(props) {
               name="remember"
               checked={remember}
               onChange={handleRememberChange}
-            />
-            <label htmlFor="remember">Remember Me</label>
+            /><label class="inline">Remember Me</label>
           </div>
 
           <button type="submit">Log In</button>
