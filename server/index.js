@@ -1,10 +1,9 @@
 // server/index.js
-
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const usersRoutes = require("./routes/users");
-
+console.log('test');
 const PORT = process.env.PORT || 3001;
 
 const app = express();
