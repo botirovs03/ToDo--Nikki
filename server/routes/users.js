@@ -165,9 +165,9 @@ router.delete('/api/users/:user_id', authenticateUser, async (req, res) => {
 });
 
 
-router.post('/api/users/category', authenticateUser, async (req, res) => {
+router.post('/api/users/category/:category_name', authenticateUser, async (req, res) => {
     try {
-        const { category_name } = req.body;
+        const category_name = req.params.category_name; // Corrected this line
         const user_id = req.userId;
 
         // Insert new category into the database
@@ -187,9 +187,10 @@ router.post('/api/users/category', authenticateUser, async (req, res) => {
 });
 
 
-router.put('/api/users/category', authenticateUser, async (req, res) => {
+
+router.put('/api/users/category/:category_id/:newData', authenticateUser, async (req, res) => {
     try {
-        const { category_name } = req.body;
+        const { category_id, newData } = req.params; // Corrected this line
         const user_id = req.userId;
 
         // Fetch the user's information from the database
@@ -205,8 +206,8 @@ router.put('/api/users/category', authenticateUser, async (req, res) => {
             }
 
             // Update category information in the database
-            const updateCategoryQuery = 'UPDATE categories SET category_name = ? WHERE user_id = ?';
-            connection.query(updateCategoryQuery, [category_name, user_id], (error, updateResults) => {
+            const updateCategoryQuery = 'UPDATE categories SET category_name = ? WHERE category_id = ?'; // Corrected this line
+            connection.query(updateCategoryQuery, [newData, category_id], (error, updateResults) => { // Corrected this line
                 if (error) {
                     console.error(error);
                     return res.status(500).json({ message: 'Internal server error' });
@@ -220,6 +221,7 @@ router.put('/api/users/category', authenticateUser, async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 
 
