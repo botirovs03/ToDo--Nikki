@@ -14,8 +14,6 @@ function authenticateUser(req, res, next) {
     try {
         // Verify the token using the secret key
         const decodedToken = jwt.verify(token, SECRET_KEY );
-
-        console.log('Decoded Token:', decodedToken);
         // Attach the decoded payload to the request object for further use
         req.userId = decodedToken.userId;
 
