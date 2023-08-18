@@ -72,6 +72,7 @@ router.post('/api/auth', async (req, res) => {
 
 router.get('/accessResoure', authenticateUser, (req, res) => {
     try {
+        
         const decodedToken = jwt.verify(req.headers.authorization.split(' ')[1], SECRET_KEY);
         res.status(200).json({ success: true, data: { userId: decodedToken.userId, email: decodedToken.email } });
     } catch (error) {
@@ -164,23 +165,19 @@ router.delete('/api/users/:user_id', authenticateUser, async (req, res) => {
 });
 
 
-router.post('/api/users/createCategory/:user_id/:category_name', authenticateUser,  (req, res) => {
-    const userId = req.params.user_id;
-    const categoryName = req.params.category_name;
-
+router.post('/api/users/category', authenticateUser, async (req, res) => {
     try {
-        // Check if the authenticated user is the same as the user creating the category
-        if (req.userId !== userId) {
-            return res.status(403).json({ message: 'Not authorized to create category' });
-        }
+        const { category_name } = req.body;
+        const user_id = req.userId;
 
-        // Insert the new category into the database
-        const insertCategoryQuery = 'INSERT INTO Categories (UserID, CategoryName) VALUES (?, ?)';
-        connection.query(insertCategoryQuery, [userId, categoryName], (err, result) => {
-            if (err) {
-                console.error(err);
+        // Insert new category into the database
+        const insertCategoryQuery = "INSERT INTO categories (category_name, user_id) VALUES (?, ?)";
+        connection.query(insertCategoryQuery, [category_name, user_id], (error, results) => {
+            if (error) {
+                console.error(error);
                 return res.status(500).json({ message: 'Internal server error' });
             }
+
             res.status(201).json({ message: 'Category created successfully' });
         });
     } catch (error) {
@@ -188,6 +185,43 @@ router.post('/api/users/createCategory/:user_id/:category_name', authenticateUse
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
+
+router.put('/api/users/category', authenticateUser, async (req, res) => {
+    try {
+        const { category_name } = req.body;
+        const user_id = req.userId;
+
+        // Fetch the user's information from the database
+        const fetchUserQuery = 'SELECT * FROM users WHERE user_id = ?';
+        connection.query(fetchUserQuery, [user_id], async (error, userResults) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ message: 'Internal server error' });
+            }
+
+            if (userResults.length === 0) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            // Update category information in the database
+            const updateCategoryQuery = 'UPDATE categories SET category_name = ? WHERE user_id = ?';
+            connection.query(updateCategoryQuery, [category_name, user_id], (error, updateResults) => {
+                if (error) {
+                    console.error(error);
+                    return res.status(500).json({ message: 'Internal server error' });
+                }
+
+                res.status(200).json({ message: 'Category updated successfully' });
+            });
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
 
 module.exports = router;
