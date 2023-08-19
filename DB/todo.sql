@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: localhost    Database: todo
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.34
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -54,7 +54,7 @@ CREATE TABLE `tasks` (
   `CategoryID` int DEFAULT NULL,
   `TaskName` varchar(255) DEFAULT NULL,
   `Description` text,
-  `Priority` varchar(20) DEFAULT NULL,
+  `Priority` enum('High','Medium','Low') DEFAULT NULL,
   `Deadline` timestamp NULL DEFAULT NULL,
   `Completed` tinyint(1) DEFAULT NULL,
   `CompletedDate` timestamp NULL DEFAULT NULL,
@@ -85,12 +85,10 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `UserID` int NOT NULL AUTO_INCREMENT,
   `Username` varchar(255) DEFAULT NULL,
-  `Email` varchar(255) NOT NULL,
+  `Email` varchar(255) DEFAULT NULL,
   `Password` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`UserID`),
-  UNIQUE KEY `Email` (`Email`),
-  UNIQUE KEY `Email_2` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`UserID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +97,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (9,'axror','axror@gmail.com','$2b$10$2smak4qKfv/TZfL.1caxFuPW8kyC80mYb//nAKiDZb8091Y..o2sq');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -112,4 +109,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-15 21:50:33
+-- Dump completed on 2023-08-19 14:41:10

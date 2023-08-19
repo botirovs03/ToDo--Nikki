@@ -3,7 +3,9 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const usersRoutes = require("./routes/users");
-console.log('tes1t');
+const categoryRoutes = require('./routes/category');
+const taskRoutes = require('./routes/taks');
+const getUserCategories = require('./routes/getUserCategories');
 const PORT = process.env.PORT || 3001;
 
 const app = express();
@@ -21,6 +23,10 @@ app.use(
 app.use(bodyParser.json());
 
 app.use(usersRoutes);
+app.use(categoryRoutes);
+app.use(taskRoutes);
+app.use(getUserCategories);
+
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
