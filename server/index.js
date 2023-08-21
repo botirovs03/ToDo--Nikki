@@ -27,7 +27,11 @@ app.use(categoryRoutes);
 app.use(taskRoutes);
 app.use(getUserCategories);
 
+app.get('/', (req, res) =>{
+  res.status(200).json({message: 'Welcome to Nikki'});
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
+

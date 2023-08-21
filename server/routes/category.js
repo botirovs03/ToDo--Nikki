@@ -4,25 +4,40 @@ const connection = require('../config/db');
 const router = express.Router();
 
 
-router.post('/api/users/category/:categoryName', authenticateUser, async (req, res) => {
+
+router.post('/api/users/category', authenticateUser, async (req, res) => {
+    const userID = req.userId; // Get the authenticated user's ID
+    const { categoryName } = req.body;
+
+    // Validate input data
+    if (!categoryName) {
+        return res.status(400).json({ error: 'Category name is required' });
+    }
+
     try {
-        const categoryName = req.params.categoryName; // Corrected this line
-        const userID = req.userId;
-        console.log(userID);
+        // Check if the category already exists for the user
+        const checkCategoryQuery = `
+            SELECT * FROM categories
+            WHERE userID = ? AND categoryName = ?
+        `;
+        const categoryCheckResult = await connection.promise().query(checkCategoryQuery, [userID, categoryName]);
 
-        // Insert new category into the database
-        const insertCategoryQuery = "INSERT INTO categories (categoryName, userID) VALUES (?, ?)";
-        connection.query(insertCategoryQuery, [categoryName, userID], (error, results) => {
-            if (error) {
-                console.error(error);
-                return res.status(500).json({ message: 'Internal server error' });
-            }
+        if (categoryCheckResult[0].length > 0) {
+            return res.status(400).json({ error: 'Category already exists for the user' });
+        }
 
-            res.status(201).json({ message: 'Category created successfully' });
-        });
+        // Insert the new category into the database
+        const insertCategoryQuery = `
+            INSERT INTO categories (userID, categoryName)
+            VALUES (?, ?)
+        `;
+        const insertResult = await connection.promise().query(insertCategoryQuery, [userID, categoryName]);
+
+        const insertedCategoryID = insertResult[0].insertId;
+        return res.status(201).json({ message: 'Category created successfully', categoryID: insertedCategoryID });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+        console.error('Error creating category:', error);
+        return res.status(500).json({ error: 'An error occurred while creating the category' });
     }
 });
 
