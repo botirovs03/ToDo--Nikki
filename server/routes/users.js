@@ -76,8 +76,6 @@ router.get('/accessResoure', authenticateUser, (req, res) => {
     }
 });
 
-
-
 router.put('/api/users/:userID', authenticateUser, async (req, res) => {
     const userIdToUpdate = req.params.userID; // Corrected variable name
     const { username, password } = req.body;
@@ -121,7 +119,6 @@ router.put('/api/users/:userID', authenticateUser, async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-
 
 router.delete('/api/users/:userID', authenticateUser, async (req, res) => {
     const userIdToDelete = req.params.userID;
