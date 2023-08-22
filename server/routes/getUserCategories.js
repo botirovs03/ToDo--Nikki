@@ -75,12 +75,19 @@ router.get('/api/tasks/:taskID', authenticateUser, (req, res) => {
             return res.status(500).json({ error: 'An error occurred while retrieving the task' });
         }
 
-        if (taskResult.length === 0) {
-            return res.status(404).json({ error: 'Task not found' });
-        }
+        try {
+            if (taskResult.length === 0) {
+                throw new Error('Task not found');
+            }
 
-        return res.status(200).json(taskResult[0]);
+            return res.status(200).json(taskResult[0]);
+        } catch (error) {
+            console.error('Task retrieval error:', error.message);
+            return res.status(404).json({ error: error.message });
+        }
     });
 });
+
+
 
 module.exports = router;

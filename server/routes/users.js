@@ -2,7 +2,6 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authenticateUser = require('../middleware/authenticateUser');
-const axios = require('axios');
 const connection = require('../config/db'); // Make sure you have the appropriate DB configuration
 
 const SECRET_KEY = 'your_secret_key';
@@ -36,39 +35,44 @@ router.post('/api/users', async (req, res) => {
 
 // Login user
 router.post('/api/auth', async (req, res) => {
-    try {
-        const { username, password } = req.body;
+    const { email, password } = req.body;
 
-        // Find the user in the database
-        connection.query('SELECT * FROM users WHERE username = ?', [username], async (error, results) => {
-            if (error) {
-                console.error(error);
-                return res.status(500).json({ message: 'Internal server error' });
+    // Retrieve user details based on the provided email
+    const getUserQuery = `
+        SELECT * FROM users
+        WHERE email = ?
+    `;
+
+    connection.query(getUserQuery, [email], async (err, userResult) => {
+        if (err) {
+            console.error('Error retrieving user:', err);
+            return res.status(500).json({ error: 'An error occurred while retrieving user' });
+        }
+
+        try {
+            if (userResult.length === 0) {
+                throw new Error('User not found');
             }
 
-            if (results.length === 0) {
-                return res.status(401).json({ message: 'Invalid credentials' });
+            const user = userResult[0];
+
+            // Compare the provided password with the hashed password in the database
+            const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+            if (!isPasswordMatch) {
+                throw new Error('Incorrect password');
             }
 
-            const user = results[0];
-
-            const passwordMatch = await bcrypt.compare(password, user.password);
-
-            if (!passwordMatch) {
-                return res.status(401).json({ message: 'Invalid credentials' });
-            }
-
-            const token = jwt.sign({ userId: user.userID }, SECRET_KEY, {
-                expiresIn: '1h'
-            });
-            res.status(200).json({ token });
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
+            // At this point, user is authenticated
+            // You can generate a JWT token and send it back as a response
+            // For now, let's just send a success message
+            return res.status(200).json({ message: 'Authentication successful' });
+        } catch (error) {
+            console.error('Authentication error:', error.message);
+            return res.status(401).json({ error: error.message });
+        }
+    });
 });
-
 // accessResoure Token
 router.get('/accessResoure', authenticateUser, (req, res) => {
     try {

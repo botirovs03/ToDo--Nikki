@@ -6,6 +6,7 @@ const usersRoutes = require("./routes/users");
 const categoryRoutes = require('./routes/category');
 const taskRoutes = require('./routes/taks');
 const getUserCategories = require('./routes/getUserCategories');
+const getUpcomingTasks = require('./routes/getUpcomingTasks');
 const PORT = process.env.PORT || 3001;
 
 const app = express();
@@ -20,12 +21,14 @@ app.use(
   })
 );
 
+
 app.use(bodyParser.json());
 
 app.use(usersRoutes);
 app.use(categoryRoutes);
 app.use(taskRoutes);
 app.use(getUserCategories);
+app.use(getUpcomingTasks);
 
 app.get('/', (req, res) =>{
   res.status(200).json({message: 'Welcome to Nikki'});
