@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 
-router.post('/api/users/category', authenticateUser, async (req, res) => {
+router.post('/api/users/categories', authenticateUser, async (req, res) => {
     const userID = req.userId; // Get the authenticated user's ID
     const { categoryName } = req.body;
 
@@ -41,74 +41,71 @@ router.post('/api/users/category', authenticateUser, async (req, res) => {
     }
 });
 
-router.put('/api/users/category/:categoryName/:newData', authenticateUser, async (req, res) => {
+router.put('/api/users/categories/:categoryID', authenticateUser, async (req, res) => {
+    const userID = req.userId; // Get the authenticated user's ID
+    const categoryID = req.params.categoryID;
+    const { categoryName } = req.body;
+
+    // Validate input data
+    if (!categoryName) {
+        return res.status(400).json({ error: 'Category name is required' });
+    }
+
     try {
-        const { categoryName, newData } = req.params;
-        const userID = req.userId;
+        // Check if the category exists for the user
+        const checkCategoryQuery = `
+            SELECT * FROM categories
+            WHERE categoryID = ? AND userID = ?
+        `;
+        const categoryCheckResult = await connection.promise().query(checkCategoryQuery, [categoryID, userID]);
 
-        // Fetch the user's information from the database
-        const fetchUserQuery = 'SELECT * FROM users WHERE userID = ?';
-        connection.query(fetchUserQuery, [userID], async (error, userResults) => {
-            if (error) {
-                console.error(error);
-                return res.status(500).json({ message: 'Internal server error' });
-            }
+        if (categoryCheckResult[0].length === 0) {
+            return res.status(404).json({ error: 'Category not found' });
+        }
 
-            if (userResults.length === 0) {
-                return res.status(404).json({ message: 'User not found' });
-            }
+        // Update the category name in the database
+        const updateCategoryQuery = `
+            UPDATE categories
+            SET categoryName = ?
+            WHERE categoryID = ?
+        `;
+        await connection.promise().query(updateCategoryQuery, [categoryName, categoryID]);
 
-            // Update category information in the database
-            const updateCategoryQuery = 'UPDATE categories SET categoryName = ? WHERE categoryName = ?';
-            connection.query(updateCategoryQuery, [newData, categoryName], (error, updateResults) => {
-                if (error) {
-                    console.error(error);
-                    return res.status(500).json({ message: 'Internal server error' });
-                }
-
-                res.status(200).json({ message: 'Category updated successfully' });
-            });
-        });
+        return res.status(200).json({ message: 'Category updated successfully' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+        console.error('Error updating category:', error);
+        return res.status(500).json({ error: 'An error occurred while updating the category' });
     }
 });
 
-router.delete('/api/users/category/:categoryName', authenticateUser, async (req, res) => {
+router.delete('/api/users/categories/:categoryID', authenticateUser, async (req, res) => {
+    const userID = req.userId; // Get the authenticated user's ID
+    const categoryID = req.params.categoryID;
+
     try {
-        const { categoryName } = req.params;
-        const userID = req.userId;
+        // Check if the category exists for the user
+        const checkCategoryQuery = `
+            SELECT * FROM categories
+            WHERE categoryID = ? AND userID = ?
+        `;
+        const categoryCheckResult = await connection.promise().query(checkCategoryQuery, [categoryID, userID]);
 
-        // Fetch the user's information from the database
-        const fetchUserQuery = 'SELECT * FROM users WHERE userID = ?';
-        connection.query(fetchUserQuery, [userID], async (error, userResults) => {
-            if (error) {
-                console.error(error);
-                return res.status(500).json({ message: 'Internal server error' });
-            }
+        if (categoryCheckResult[0].length === 0) {
+            return res.status(404).json({ error: 'Category not found' });
+        }
 
-            if (userResults.length === 0) {
-                return res.status(404).json({ message: 'User not found' });
-            }
+        // Delete the category from the database
+        const deleteCategoryQuery = `
+            DELETE FROM categories
+            WHERE categoryID = ?
+        `;
+        await connection.promise().query(deleteCategoryQuery, [categoryID]);
 
-            // Delete category from the database
-            const deleteCategoryQuery = 'DELETE FROM categories WHERE categoryName = ?';
-            connection.query(deleteCategoryQuery, [categoryName], (error, deleteResults) => {
-                if (error) {
-                    console.error(error);
-                    return res.status(500).json({ message: 'Internal server error' });
-                }
-
-                res.status(200).json({ message: 'Category deleted successfully' });
-            });
-        });
+        return res.status(200).json({ message: 'Category deleted successfully' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+        console.error('Error deleting category:', error);
+        return res.status(500).json({ error: 'An error occurred while deleting the category' });
     }
 });
-
-
 
 module.exports = router;
