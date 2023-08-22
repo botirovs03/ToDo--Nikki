@@ -2,12 +2,14 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authenticateUser = require('../middleware/authenticateUser');
+const axios = require('axios');
 const connection = require('../config/db'); // Make sure you have the appropriate DB configuration
 
 const SECRET_KEY = 'your_secret_key';
 
 const router = express.Router();
 
+// Create user
 router.post('/api/users', async (req, res) => {
     try {
         const { username, password, email } = req.body;
@@ -32,6 +34,7 @@ router.post('/api/users', async (req, res) => {
     }
 });
 
+// Login user
 router.post('/api/auth', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -66,6 +69,7 @@ router.post('/api/auth', async (req, res) => {
     }
 });
 
+// accessResoure Token
 router.get('/accessResoure', authenticateUser, (req, res) => {
     try {
         const decodedToken = jwt.verify(req.headers.authorization.split(' ')[1], SECRET_KEY);
@@ -76,9 +80,10 @@ router.get('/accessResoure', authenticateUser, (req, res) => {
     }
 });
 
+// update User
 router.put('/api/users/:userID', authenticateUser, async (req, res) => {
-    const userIdToUpdate = req.params.userID; // Corrected variable name
-    const { username, password } = req.body;
+    const userIdToUpdate = req.params.userID;
+    const { username, password, email } = req.body;
 
     try {
         // Fetch the user's information from the database
@@ -104,13 +109,13 @@ router.put('/api/users/:userID', authenticateUser, async (req, res) => {
             const updatedPassword = password ? await bcrypt.hash(password, 10) : user.password;
 
             // Update user information in the database
-            const updateUserQuery = 'UPDATE users SET username = ?, password = ? WHERE userID = ?';
-            connection.query(updateUserQuery, [username, updatedPassword, userIdToUpdate], (error, results) => {
+            const updateUserQuery = 'UPDATE users SET username = ?, email = ?, password = ? WHERE userID = ?';
+            connection.query(updateUserQuery, [username, email, updatedPassword, userIdToUpdate], (error, results) => {
                 if (error) {
                     console.error('Error updating user:', error);
                     return res.status(500).json({ message: 'Internal server error' });
                 }
-                
+
                 res.status(200).json({ message: 'User updated successfully' });
             });
         });
@@ -120,6 +125,7 @@ router.put('/api/users/:userID', authenticateUser, async (req, res) => {
     }
 });
 
+// delete User
 router.delete('/api/users/:userID', authenticateUser, async (req, res) => {
     const userIdToDelete = req.params.userID;
 
