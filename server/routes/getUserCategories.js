@@ -6,10 +6,11 @@ const router = express.Router();
 router.get('/api/categories/:userID', authenticateUser, (req, res) => {
     const userID = req.params.userID;
 
+
     // Retrieve categories associated with the specified userID
     const getCategoryQuery = `
         SELECT * FROM categories
-        WHERE userID = ?
+        WHERE UserID = ?
     `;
 
     connection.query(getCategoryQuery, [userID], (err, categoryResult) => {
@@ -28,7 +29,7 @@ router.get('/api/tasks/:categoryID', authenticateUser, (req, res) => {
     // Retrieve tasks associated with the specified categoryID
     const getTasksQuery = `
         SELECT * FROM tasks
-        WHERE categoryID = ?
+        WHERE CategoryID = ?
     `;
 
     connection.query(getTasksQuery, [categoryID], (err, tasksResult) => {
@@ -47,7 +48,7 @@ router.get('/api/tasks/user/:userID', authenticateUser, (req, res) => {
     // Retrieve tasks associated with the specified userID
     const getTasksQuery = `
         SELECT * FROM tasks
-        WHERE userID = ?
+        WHERE UserID = ?
     `;
 
     connection.query(getTasksQuery, [userID], (err, tasksResult) => {
@@ -60,13 +61,16 @@ router.get('/api/tasks/user/:userID', authenticateUser, (req, res) => {
     });
 });
 
+
+//Check !!!!
 router.get('/api/tasks/:taskID', authenticateUser, (req, res) => {
     const taskID = req.params.taskID;
+    console.log(taskID);
 
     // Retrieve details of the specified task
     const getTaskQuery = `
         SELECT * FROM tasks
-        WHERE taskID = ?
+        WHERE TaskID = ?
     `;
 
     connection.query(getTaskQuery, [taskID], (err, taskResult) => {

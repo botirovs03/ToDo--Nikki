@@ -13,7 +13,7 @@ router.post('/api/task', authenticateUser, (req, res) => {
 
     // Retrieve userID and categoryID from categories table using categoryName
     const getCategoryQuery = `
-        SELECT userID, categoryID FROM categories WHERE categoryName = ?
+        SELECT UserID, CategoryID FROM categories WHERE CategoryName = ?
     `;
 
     connection.query(getCategoryQuery, [categoryName], (err, categoryResult) => {
@@ -26,15 +26,15 @@ router.post('/api/task', authenticateUser, (req, res) => {
             return res.status(404).json({ error: 'Category not found' });
         }
 
-        const { userID, categoryID } = categoryResult[0];
+        const { UserID, CategoryID } = categoryResult[0];
 
         // Insert the task into the database
         const insertTaskQuery = `
-            INSERT INTO tasks (userID, categoryID, taskName, description, priority, deadline, completed)
+            INSERT INTO tasks (UserID, CategoryID, TaskName, Description, Priority, Deadline, Completed)
             VALUES (?, ?, ?, ?, ?, ?, false)
         `;
 
-        const values = [userID, categoryID, taskName, description, priority, deadline];
+        const values = [UserID, CategoryID, taskName, description, priority, deadline];
 
         connection.query(insertTaskQuery, values, (err, result) => {
             if (err) {
@@ -60,8 +60,8 @@ router.put('/api/tasks/:taskID', authenticateUser, (req, res) => {
     // Update the task in the database
     const updateTaskQuery = `
         UPDATE tasks
-        SET taskName = ?, description = ?, priority = ?, deadline = ?, completed = ?
-        WHERE taskID = ?
+        SET TaskName = ?, Description = ?, Priority = ?, Deadline = ?, Completed = ?
+        WHERE TaskID = ?
     `;
 
     const values = [taskName, description, priority, deadline, completed, taskID];
@@ -82,7 +82,7 @@ router.delete('/api/tasks/:taskID', authenticateUser, (req, res) => {
     // Delete the task from the database
     const deleteTaskQuery = `
         DELETE FROM tasks
-        WHERE taskID = ?
+        WHERE TaskID = ?
     `;
 
     connection.query(deleteTaskQuery, [taskID], (err, result) => {
@@ -101,8 +101,8 @@ router.put('/api/tasks/:taskID/complete', authenticateUser, (req, res) => {
     // Update the task as completed in the database
     const completeTaskQuery = `
         UPDATE tasks
-        SET completed = true, completedDate = NOW()
-        WHERE taskID = ?
+        SET Completed = true, CompletedDate = NOW()
+        WHERE TaskID = ?
     `;
 
     connection.query(completeTaskQuery, [taskID], (err, result) => {

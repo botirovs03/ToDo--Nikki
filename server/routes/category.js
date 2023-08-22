@@ -6,8 +6,9 @@ const router = express.Router();
 
 
 router.post('/api/users/categories', authenticateUser, async (req, res) => {
-    const userID = req.userId; // Get the authenticated user's ID
+    const UserID = req.UserId; // Get the authenticated user's ID
     const { categoryName } = req.body;
+    console.log(UserID);
 
     // Validate input data
     if (!categoryName) {
@@ -18,9 +19,9 @@ router.post('/api/users/categories', authenticateUser, async (req, res) => {
         // Check if the category already exists for the user
         const checkCategoryQuery = `
             SELECT * FROM categories
-            WHERE userID = ? AND categoryName = ?
+            WHERE UserID = ? AND CategoryName = ?
         `;
-        const categoryCheckResult = await connection.promise().query(checkCategoryQuery, [userID, categoryName]);
+        const categoryCheckResult = await connection.promise().query(checkCategoryQuery, [UserID, categoryName]);
 
         if (categoryCheckResult[0].length > 0) {
             return res.status(400).json({ error: 'Category already exists for the user' });
@@ -28,10 +29,10 @@ router.post('/api/users/categories', authenticateUser, async (req, res) => {
 
         // Insert the new category into the database
         const insertCategoryQuery = `
-            INSERT INTO categories (userID, categoryName)
+            INSERT INTO categories (UserID, CategoryName)
             VALUES (?, ?)
         `;
-        const insertResult = await connection.promise().query(insertCategoryQuery, [userID, categoryName]);
+        const insertResult = await connection.promise().query(insertCategoryQuery, [UserID, categoryName]);
 
         const insertedCategoryID = insertResult[0].insertId;
         return res.status(201).json({ message: 'Category created successfully', categoryID: insertedCategoryID });
@@ -42,7 +43,7 @@ router.post('/api/users/categories', authenticateUser, async (req, res) => {
 });
 
 router.put('/api/users/categories/:categoryID', authenticateUser, async (req, res) => {
-    const userID = req.userId; // Get the authenticated user's ID
+    const userID = req.UserId; // Get the authenticated user's ID
     const categoryID = req.params.categoryID;
     const { categoryName } = req.body;
 
@@ -55,7 +56,7 @@ router.put('/api/users/categories/:categoryID', authenticateUser, async (req, re
         // Check if the category exists for the user
         const checkCategoryQuery = `
             SELECT * FROM categories
-            WHERE categoryID = ? AND userID = ?
+            WHERE CategoryID = ? AND UserID = ?
         `;
         const categoryCheckResult = await connection.promise().query(checkCategoryQuery, [categoryID, userID]);
 
@@ -66,8 +67,8 @@ router.put('/api/users/categories/:categoryID', authenticateUser, async (req, re
         // Update the category name in the database
         const updateCategoryQuery = `
             UPDATE categories
-            SET categoryName = ?
-            WHERE categoryID = ?
+            SET CategoryName = ?
+            WHERE CategoryID = ?
         `;
         await connection.promise().query(updateCategoryQuery, [categoryName, categoryID]);
 
@@ -79,14 +80,14 @@ router.put('/api/users/categories/:categoryID', authenticateUser, async (req, re
 });
 
 router.delete('/api/users/categories/:categoryID', authenticateUser, async (req, res) => {
-    const userID = req.userId; // Get the authenticated user's ID
+    const userID = req.UserId; // Get the authenticated user's ID
     const categoryID = req.params.categoryID;
 
     try {
         // Check if the category exists for the user
         const checkCategoryQuery = `
             SELECT * FROM categories
-            WHERE categoryID = ? AND userID = ?
+            WHERE CategoryID = ? AND UserID = ?
         `;
         const categoryCheckResult = await connection.promise().query(checkCategoryQuery, [categoryID, userID]);
 
@@ -97,7 +98,7 @@ router.delete('/api/users/categories/:categoryID', authenticateUser, async (req,
         // Delete the category from the database
         const deleteCategoryQuery = `
             DELETE FROM categories
-            WHERE categoryID = ?
+            WHERE CategoryID = ?
         `;
         await connection.promise().query(deleteCategoryQuery, [categoryID]);
 

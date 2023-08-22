@@ -17,7 +17,7 @@ function authenticateUser(req, res, next) {
 
         console.log('Decoded Token:', decodedToken);
         // Attach the decoded payload to the request object for further use
-        req.userId = decodedToken.userId;
+        req.UserId = decodedToken.UserId;
         // Continue to the next middleware or route handler
         next();
     } catch (error) {
