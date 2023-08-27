@@ -57,8 +57,8 @@ router.post('/api/auth', async (req, res) => {
                 return res.status(401).json({ message: 'Invalid credentials' });
             }
 
-            const token = jwt.sign({ userId: user.userID }, SECRET_KEY, {
-                expiresIn: '1h'
+            const token = jwt.sign({ userId: user.UserID }, SECRET_KEY, {
+                expiresIn: '72h'
             });
             res.status(200).json({ token });
         });
@@ -71,9 +71,8 @@ router.post('/api/auth', async (req, res) => {
 // accessResoure Token
 router.get('/accessResoure', authenticateUser, (req, res) => {
     try {
-        const decodedToken = jwt.verify(req.headers.authorization.split(' ')[1], SECRET_KEY);
-        res.status(200).json({ success: true, data: { userId: decodedToken.userId, email: decodedToken.email,
-        username: decodedToken.username } });
+        // const decodedToken = jwt.verify(req.headers.authorization.split(' ')[1], SECRET_KEY);
+        res.status(200).json({ success: true, data: {userId:  req.userId} });
     } catch (error) {
         res.status(401).json({ message: 'Invalid token' });
     }

@@ -1,46 +1,76 @@
-const express = require('express');
-const authenticateUser = require('../middleware/authenticateUser');
-const connection = require('../config/db');
+const express = require("express");
+const authenticateUser = require("../middleware/authenticateUser");
+const connection = require("../config/db");
 const router = express.Router();
 
-router.get('/api/tasks/upcoming/:userID', authenticateUser, (req, res) => {
-    const userID = req.params.userID;
-
-    // Retrieve upcoming tasks associated with the specified userID
-    const getUpcomingTasksQuery = `
+router.get("/api/tasks/upcoming", authenticateUser, (req, res) => {
+  // const userID = req.params.userID;
+  let userID = req.userId;
+  console.log("hello" + userID);
+  // Retrieve upcoming tasks associated with the specified userID
+  const getUpcomingTasksQuery = `
         SELECT * FROM tasks
-        WHERE userID = ? AND completed = false AND deadline >= NOW()
+        WHERE userID = ? AND completed = false AND deadline <= NOW()
         ORDER BY deadline ASC
     `;
 
-    connection.query(getUpcomingTasksQuery, [userID], (err, tasksResult) => {
-        if (err) {
-            console.error('Error retrieving upcoming tasks:', err);
-            return res.status(500).json({ error: 'An error occurred while retrieving upcoming tasks' });
-        }
+  connection.query(getUpcomingTasksQuery, [userID], (err, tasksResult) => {
+    if (err) {
+      console.error("Error retrieving upcoming tasks:", err);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while retrieving upcoming tasks" });
+    }
 
-        return res.status(200).json(tasksResult);
-    });
+    return res.status(200).json(tasksResult);
+  });
 });
 
-router.get('/api/tasks/overdue/:userID', authenticateUser, (req, res) => {
-    const userID = req.params.userID;
+router.get("/api/tasks/overdue/:userID", authenticateUser, (req, res) => {
+  const userID = req.params.userID;
 
-    // Retrieve overdue tasks associated with the specified userID
-    const getOverdueTasksQuery = `
+  // Retrieve overdue tasks associated with the specified userID
+  const getOverdueTasksQuery = `
         SELECT * FROM tasks
         WHERE userID = ? AND completed = false AND deadline < NOW()
         ORDER BY deadline ASC
     `;
 
-    connection.query(getOverdueTasksQuery, [userID], (err, tasksResult) => {
-        if (err) {
-            console.error('Error retrieving overdue tasks:', err);
-            return res.status(500).json({ error: 'An error occurred while retrieving overdue tasks' });
-        }
+  connection.query(getOverdueTasksQuery, [userID], (err, tasksResult) => {
+    if (err) {
+      console.error("Error retrieving overdue tasks:", err);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while retrieving overdue tasks" });
+    }
 
-        return res.status(200).json(tasksResult);
-    });
+    return res.status(200).json(tasksResult);
+  });
+});
+
+router.get("/upcoming", authenticateUser, (req, res) => {
+  // const userID = req.params.userID;
+  let userID = req.userId;
+  console.log("hello" + userID);
+  // Retrieve upcoming tasks associated with the specified userID
+  const getUpcomingTasksQuery = `
+    SELECT t.*, c.CategoryName
+    FROM tasks t
+    JOIN categories c ON t.CategoryID = c.CategoryID
+    WHERE t.UserID = ?
+    ORDER BY t.Deadline ASC;
+    `;
+
+  connection.query(getUpcomingTasksQuery, [userID], (err, tasksResult) => {
+    if (err) {
+      console.error("Error retrieving upcoming tasks:", err);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while retrieving upcoming tasks" });
+    }
+
+    return res.status(200).json(tasksResult);
+  });
 });
 
 module.exports = router;
