@@ -24,7 +24,6 @@ router.get('/api/tasks/upcoming/:userID', authenticateUser, (req, res) => {
 });
 
 
-// Check !!!!!
 router.get('/api/tasks/overdue/:userID', authenticateUser, (req, res) => {
     const userID = req.params.userID;
 
@@ -39,6 +38,26 @@ router.get('/api/tasks/overdue/:userID', authenticateUser, (req, res) => {
         if (err) {
             console.error('Error retrieving overdue tasks:', err);
             return res.status(500).json({ error: 'An error occurred while retrieving overdue tasks' });
+        }
+
+        return res.status(200).json(tasksResult);
+    });
+});
+
+
+router.get('/api/all/tasks/all', authenticateUser, (req, res) => {
+    const UserID = req.UserId;
+
+    // Show all tasks of user
+    const getAllTasksQuery = `
+        SELECT * FROM tasks
+        WHERE UserID = ?
+    `;
+
+    connection.query(getAllTasksQuery, [UserID], (err, tasksResult) => {
+        if (err) {
+            console.error('Error retrieving tasks:', err);
+            return res.status(500).json({ error: 'An error occurred while retrieving tasks' });
         }
 
         return res.status(200).json(tasksResult);

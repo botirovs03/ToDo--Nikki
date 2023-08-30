@@ -11,42 +11,29 @@ router.post('/api/task', authenticateUser, (req, res) => {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Retrieve userID and categoryID from categories table using categoryName
-    const getCategoryQuery = `
-        SELECT UserID, CategoryID FROM categories WHERE CategoryName = ?
+    const userID = req.params.userID; // Corrected from req.UserId
+
+    // Insert the new task into the database
+    const insertTaskQuery = `
+        INSERT INTO tasks (UserID, CategoryName, TaskName, Description, Priority, Deadline)
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
 
-    connection.query(getCategoryQuery, [categoryName], (err, categoryResult) => {
-        if (err) {
-            console.error('Error retrieving category:', err);
-            return res.status(500).json({ error: 'An error occurred while retrieving the category' });
-        }
-
-        if (categoryResult.length === 0) {
-            return res.status(404).json({ error: 'Category not found' });
-        }
-
-        const { UserID, CategoryID } = categoryResult[0];
-
-        // Insert the task into the database
-        const insertTaskQuery = `
-            INSERT INTO tasks (UserID, CategoryID, TaskName, Description, Priority, Deadline, Completed)
-            VALUES (?, ?, ?, ?, ?, ?, false)
-        `;
-
-        const values = [UserID, CategoryID, taskName, description, priority, deadline];
-
-        connection.query(insertTaskQuery, values, (err, result) => {
+    connection.query(
+        insertTaskQuery,
+        [userID, categoryName, taskName, description, priority, deadline],
+        (err, insertResult) => {
             if (err) {
                 console.error('Error inserting task:', err);
                 return res.status(500).json({ error: 'An error occurred while inserting the task' });
             }
 
-            const insertedTaskID = result.insertId;
-            return res.status(201).json({ message: 'Task inserted successfully', taskID: insertedTaskID });
-        });
-    });
+            const insertedTaskID = insertResult.insertId;
+            return res.status(201).json({ message: 'Task created successfully', taskID: insertedTaskID });
+        }
+    );
 });
+
 
 router.put('/api/tasks/:taskID', authenticateUser, (req, res) => {
     const taskID = req.params.taskID;

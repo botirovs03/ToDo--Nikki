@@ -6,7 +6,7 @@ const usersRoutes = require("./routes/users");
 const categoryRoutes = require('./routes/category');
 const taskRoutes = require('./routes/taks');
 const getUserCategories = require('./routes/getUserCategories');
-const getUpcomingTasks = require('./routes/getUpcomingTasks');
+const getUpcomingTasks = require('./routes/getTasks');
 const PORT = process.env.PORT || 3001;
 
 const app = express();

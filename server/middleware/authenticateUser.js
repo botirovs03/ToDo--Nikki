@@ -8,6 +8,7 @@ function authenticateUser(req, res, next) {
     // Check if the token is missing
     if(!token){
         console.error('Token is missing');
+        
         return res.status(401).json({ message: 'Missing token' });
     }
 
