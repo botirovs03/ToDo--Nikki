@@ -3,6 +3,8 @@ const authenticateUser = require('../middleware/authenticateUser');
 const connection = require('../config/db');
 const router = express.Router();
 
+
+// update create task
 router.post('/api/task', authenticateUser, (req, res) => {
     const { categoryName, taskName, description, priority, deadline } = req.body;
 
@@ -11,29 +13,30 @@ router.post('/api/task', authenticateUser, (req, res) => {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const userID = req.params.userID; // Corrected from req.UserId
+    const userID = req.UserId; // Get the authenticated user's ID from req.user
+    console.log("userID is >>>>>>> " + userID);
 
-    // Insert the new task into the database
+    // Insert the task into the Tasks table
     const insertTaskQuery = `
-        INSERT INTO tasks (UserID, CategoryName, TaskName, Description, Priority, Deadline)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO Tasks (UserID, CategoryID, TaskName, Description, Priority, Deadline, Completed)
+        SELECT ?, CategoryID, ?, ?, ?, ?, ?
+        FROM Categories
+        WHERE UserID = ? AND CategoryName = ?
     `;
 
     connection.query(
         insertTaskQuery,
-        [userID, categoryName, taskName, description, priority, deadline],
-        (err, insertResult) => {
-            if (err) {
-                console.error('Error inserting task:', err);
-                return res.status(500).json({ error: 'An error occurred while inserting the task' });
+        [userID, taskName, description, priority, deadline, false, userID, categoryName],
+        (error, results, fields) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ error: 'Error creating task' });
             }
 
-            const insertedTaskID = insertResult.insertId;
-            return res.status(201).json({ message: 'Task created successfully', taskID: insertedTaskID });
+            return res.status(201).json({ message: 'Task created successfully' });
         }
     );
 });
-
 
 router.put('/api/tasks/:taskID', authenticateUser, (req, res) => {
     const taskID = req.params.taskID;

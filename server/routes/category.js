@@ -3,8 +3,7 @@ const authenticateUser = require('../middleware/authenticateUser');
 const connection = require('../config/db');
 const router = express.Router();
 
-
-
+// Create categories
 router.post('/api/users/categories', authenticateUser, async (req, res) => {
     const UserID = req.UserId; // Get the authenticated user's ID
     const { categoryName } = req.body;
@@ -108,5 +107,7 @@ router.delete('/api/users/categories/:categoryID', authenticateUser, async (req,
         return res.status(500).json({ error: 'An error occurred while deleting the category' });
     }
 });
+
+
 
 module.exports = router;

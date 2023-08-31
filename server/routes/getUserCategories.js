@@ -62,7 +62,6 @@ router.get('/api/tasks/user/:userID', authenticateUser, (req, res) => {
 });
 
 
-//Check !!!!
 router.get('/api/tasks/:taskID', authenticateUser, (req, res) => {
     const taskID = req.params.taskID;
     console.log(taskID);
@@ -93,5 +92,27 @@ router.get('/api/tasks/:taskID', authenticateUser, (req, res) => {
 });
 
 
+// GET Categories count
+router.get('/api/users/getCategories/:CategoryID', authenticateUser, (req, res) => {
+    const userID = req.UserId; // Corrected from req.UserId
+    const categoryID = req.params.CategoryID;
+
+    const getCategoryTasksCountQuery = `
+        SELECT COUNT(TaskID) AS TaskCount
+        FROM tasks
+        WHERE CategoryID = ? AND UserID = ?;
+    `;
+
+    connection.query(getCategoryTasksCountQuery, [categoryID, userID], (error, results, fields) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Error fetching task count' });
+        }
+
+        const taskCount = results[0].TaskCount;
+
+        return res.status(200).json({ taskCount });
+    });
+});
 
 module.exports = router;
