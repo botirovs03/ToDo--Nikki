@@ -8,6 +8,7 @@ const taskRoutes = require('./routes/taks');
 const getUserCategories = require('./routes/getUserCategories');
 const getUpcomingTasks = require('./routes/getUpcomingTasks');
 const PORT = process.env.PORT || 3001;
+// const HOST = '0.0.0.0';
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(
   })
 );
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // Replace with the actual origin
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Replace with the actual origin
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
@@ -36,6 +37,18 @@ app.use(categoryRoutes);
 app.use(taskRoutes);
 app.use(getUserCategories);
 app.use(getUpcomingTasks);
+
+// Define a custom route to list all APIs
+app.get("/api-list", (req, res) => {
+  const routes = app._router.stack
+    .filter((r) => r.route)
+    .map((r) => ({
+      method: Object.keys(r.route.methods)[0].toUpperCase(),
+      path: r.route.path,
+    }));
+
+  res.json({ routes });
+});
 
 app.get('/', (req, res) =>{
   res.status(200).json({message: 'Welcome to Nikki'});

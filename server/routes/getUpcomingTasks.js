@@ -11,7 +11,7 @@ router.get("/api/tasks/upcoming", authenticateUser, (req, res) => {
   const getUpcomingTasksQuery = `
         SELECT * FROM tasks
         WHERE userID = ? AND completed = false AND deadline <= NOW()
-        ORDER BY deadline ASC
+        ORDER BY deadline ASCn
     `;
 
   connection.query(getUpcomingTasksQuery, [userID], (err, tasksResult) => {
@@ -58,7 +58,7 @@ router.get("/upcoming", authenticateUser, (req, res) => {
     FROM tasks t
     JOIN categories c ON t.CategoryID = c.CategoryID
     WHERE t.UserID = ?
-    ORDER BY t.Deadline ASC;
+    ORDER BY t.Deadline DESC;
     `;
 
   connection.query(getUpcomingTasksQuery, [userID], (err, tasksResult) => {
