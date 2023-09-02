@@ -50,21 +50,21 @@ router.post('/api/task', authenticateUser, (req, res) => {
 
 router.put('/api/tasks/:taskID', authenticateUser, (req, res) => {
     const taskID = req.params.taskID;
-    const { taskName, description, priority, deadline, completed } = req.body;
+    const { taskName, description, priority, deadline, completed, categoryName } = req.body;
 
     // Validate input data
-    if (!taskName || !priority || !deadline) {
+    if (!taskName || !priority ) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
     // Update the task in the database
     const updateTaskQuery = `
         UPDATE tasks
-        SET taskName = ?, description = ?, priority = ?, deadline = ?, completed = ?
+        SET taskName = ?, description = ?, priority = ?, deadline = ?, completed = ?, CategoryID = ?
         WHERE taskID = ?
     `;
 
-    const values = [taskName, description, priority, deadline, completed, taskID];
+    const values = [taskName, description, priority, deadline, completed, categoryName, taskID];
 
     connection.query(updateTaskQuery, values, (err, result) => {
         if (err) {
