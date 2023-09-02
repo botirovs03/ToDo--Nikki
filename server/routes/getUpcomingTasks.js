@@ -48,7 +48,7 @@ router.get("/api/tasks/overdue/:userID", authenticateUser, (req, res) => {
   });
 });
 
-router.get("/upcoming", authenticateUser, (req, res) => {
+router.get("/api/all", authenticateUser, (req, res) => {
   // const userID = req.params.userID;
   let userID = req.userId;
   console.log("hello" + userID);
