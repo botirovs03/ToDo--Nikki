@@ -6,10 +6,11 @@ const router = express.Router();
 router.get('/api/categories/:userID', authenticateUser, (req, res) => {
     const userID = req.params.userID;
 
+
     // Retrieve categories associated with the specified userID
     const getCategoryQuery = `
         SELECT * FROM categories
-        WHERE userID = ?
+        WHERE UserID = ?
     `;
 
     connection.query(getCategoryQuery, [userID], (err, categoryResult) => {
@@ -28,7 +29,7 @@ router.get('/api/tasks/:categoryID', authenticateUser, (req, res) => {
     // Retrieve tasks associated with the specified categoryID
     const getTasksQuery = `
         SELECT * FROM tasks
-        WHERE categoryID = ?
+        WHERE CategoryID = ?
     `;
 
     connection.query(getTasksQuery, [categoryID], (err, tasksResult) => {
@@ -47,7 +48,7 @@ router.get('/api/tasks/user/:userID', authenticateUser, (req, res) => {
     // Retrieve tasks associated with the specified userID
     const getTasksQuery = `
         SELECT * FROM tasks
-        WHERE userID = ?
+        WHERE UserID = ?
     `;
 
     connection.query(getTasksQuery, [userID], (err, tasksResult) => {
@@ -60,13 +61,15 @@ router.get('/api/tasks/user/:userID', authenticateUser, (req, res) => {
     });
 });
 
+
 router.get('/api/tasks/:taskID', authenticateUser, (req, res) => {
     const taskID = req.params.taskID;
+    console.log(taskID);
 
     // Retrieve details of the specified task
     const getTaskQuery = `
         SELECT * FROM tasks
-        WHERE taskID = ?
+        WHERE TaskID = ?
     `;
 
     connection.query(getTaskQuery, [taskID], (err, taskResult) => {
@@ -89,5 +92,27 @@ router.get('/api/tasks/:taskID', authenticateUser, (req, res) => {
 });
 
 
+// GET Categories count
+router.get('/api/users/getCategories/:CategoryID', authenticateUser, (req, res) => {
+    const userID = req.UserId; // Corrected from req.UserId
+    const categoryID = req.params.CategoryID;
+
+    const getCategoryTasksCountQuery = `
+        SELECT COUNT(TaskID) AS TaskCount
+        FROM tasks
+        WHERE CategoryID = ? AND UserID = ?;
+    `;
+
+    connection.query(getCategoryTasksCountQuery, [categoryID, userID], (error, results, fields) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Error fetching task count' });
+        }
+
+        const taskCount = results[0].TaskCount;
+
+        return res.status(200).json({ taskCount });
+    });
+});
 
 module.exports = router;

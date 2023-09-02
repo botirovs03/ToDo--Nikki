@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authenticateUser = require('../middleware/authenticateUser');
 const connection = require('../config/db'); // Make sure you have the appropriate DB configuration
+const { use } = require('passport');
 
 const SECRET_KEY = 'your_secret_key';
 
@@ -15,7 +16,7 @@ router.post('/api/users', async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const insertUserQuery = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
+        const insertUserQuery = "INSERT INTO users (Username, Password, Email) VALUES (?, ?, ?)";
 
         connection.query(
             insertUserQuery, [username, hashedPassword, email], (err, result) => {
@@ -39,7 +40,7 @@ router.post('/api/auth', async (req, res) => {
         const { email, password } = req.body;
 
         // Find the user in the database
-        connection.query('SELECT * FROM users WHERE email = ?', [email], async (error, results) => {
+        connection.query('SELECT * FROM users WHERE Email = ?', [email], async (error, results) => {
             if (error) {
                 console.error(error);
                 return res.status(500).json({ message: 'Internal server error' });
@@ -71,8 +72,9 @@ router.post('/api/auth', async (req, res) => {
 // accessResoure Token
 router.get('/accessResoure', authenticateUser, (req, res) => {
     try {
-        // const decodedToken = jwt.verify(req.headers.authorization.split(' ')[1], SECRET_KEY);
-        res.status(200).json({ success: true, data: {userId:  req.userId} });
+        const decodedToken = jwt.verify(req.headers.authorization.split(' ')[1], SECRET_KEY);
+        res.status(200).json({ success: true, data: { userId: decodedToken.userId, email: decodedToken.email,
+        username: decodedToken.username } });
     } catch (error) {
         res.status(401).json({ message: 'Invalid token' });
     }
@@ -85,7 +87,7 @@ router.put('/api/users/:userID', authenticateUser, async (req, res) => {
 
     try {
         // Fetch the user's information from the database
-        const fetchUserQuery = 'SELECT * FROM users WHERE userID = ?';
+        const fetchUserQuery = 'SELECT * FROM users WHERE UserID = ?';
         connection.query(fetchUserQuery, [userIdToUpdate], async (error, results) => {
             if (error) {
                 console.error(error);
@@ -107,7 +109,7 @@ router.put('/api/users/:userID', authenticateUser, async (req, res) => {
             const updatedPassword = password ? await bcrypt.hash(password, 10) : user.password;
 
             // Update user information in the database
-            const updateUserQuery = 'UPDATE users SET username = ?, email = ?, password = ? WHERE userID = ?';
+            const updateUserQuery = 'UPDATE Users SET Username = ?, Email = ?, Password = ? WHERE UserID = ?';
             connection.query(updateUserQuery, [username, email, updatedPassword, userIdToUpdate], (error, results) => {
                 if (error) {
                     console.error('Error updating user:', error);
@@ -129,7 +131,7 @@ router.delete('/api/users/:userID', authenticateUser, async (req, res) => {
 
     try {
         // Fetch the user's information from the database
-        const fetchUserQuery = 'SELECT * FROM users WHERE userID = ?';
+        const fetchUserQuery = 'SELECT * FROM users WHERE UserID = ?';
         connection.query(fetchUserQuery, [userIdToDelete], (error, results) => {
             if (error) {
                 console.error(error);
@@ -148,7 +150,7 @@ router.delete('/api/users/:userID', authenticateUser, async (req, res) => {
             }
 
             // Proceed with user deletion
-            const deleteUserQuery = 'DELETE FROM users WHERE userID = ?';
+            const deleteUserQuery = 'DELETE FROM Users WHERE UserID = ?';
             connection.query(deleteUserQuery, [userIdToDelete], (error, results) => {
                 if (error) {
                     console.error(error);

@@ -3,6 +3,8 @@ const authenticateUser = require('../middleware/authenticateUser');
 const connection = require('../config/db');
 const router = express.Router();
 
+
+// update create task
 router.post('/api/task', authenticateUser, (req, res) => {
     const { categoryName, taskName, description, priority, deadline } = req.body;
 
@@ -11,41 +13,29 @@ router.post('/api/task', authenticateUser, (req, res) => {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Retrieve userID and categoryID from categories table using categoryName
-    const getCategoryQuery = `
-        SELECT userID, categoryID FROM categories WHERE categoryName = ?
+    const userID = req.UserId; // Get the authenticated user's ID from req.user
+    console.log("userID is >>>>>>> " + userID);
+
+    // Insert the task into the Tasks table
+    const insertTaskQuery = `
+        INSERT INTO Tasks (UserID, CategoryID, TaskName, Description, Priority, Deadline, Completed)
+        SELECT ?, CategoryID, ?, ?, ?, ?, ?
+        FROM Categories
+        WHERE UserID = ? AND CategoryName = ?
     `;
 
-    connection.query(getCategoryQuery, [categoryName], (err, categoryResult) => {
-        if (err) {
-            console.error('Error retrieving category:', err);
-            return res.status(500).json({ error: 'An error occurred while retrieving the category' });
-        }
-
-        if (categoryResult.length === 0) {
-            return res.status(404).json({ error: 'Category not found' });
-        }
-
-        const { userID, categoryID } = categoryResult[0];
-
-        // Insert the task into the database
-        const insertTaskQuery = `
-            INSERT INTO tasks (userID, categoryID, taskName, description, priority, deadline, completed)
-            VALUES (?, ?, ?, ?, ?, ?, false)
-        `;
-
-        const values = [userID, categoryID, taskName, description, priority, deadline];
-
-        connection.query(insertTaskQuery, values, (err, result) => {
-            if (err) {
-                console.error('Error inserting task:', err);
-                return res.status(500).json({ error: 'An error occurred while inserting the task' });
+    connection.query(
+        insertTaskQuery,
+        [userID, taskName, description, priority, deadline, false, userID, categoryName],
+        (error, results, fields) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ error: 'Error creating task' });
             }
 
-            const insertedTaskID = result.insertId;
-            return res.status(201).json({ message: 'Task inserted successfully', taskID: insertedTaskID });
-        });
-    });
+            return res.status(201).json({ message: 'Task created successfully' });
+        }
+    );
 });
 
 router.put('/api/tasks/:taskID', authenticateUser, (req, res) => {
@@ -60,8 +50,8 @@ router.put('/api/tasks/:taskID', authenticateUser, (req, res) => {
     // Update the task in the database
     const updateTaskQuery = `
         UPDATE tasks
-        SET taskName = ?, description = ?, priority = ?, deadline = ?, completed = ?
-        WHERE taskID = ?
+        SET TaskName = ?, Description = ?, Priority = ?, Deadline = ?, Completed = ?
+        WHERE TaskID = ?
     `;
 
     const values = [taskName, description, priority, deadline, completed, taskID];
@@ -82,7 +72,7 @@ router.delete('/api/tasks/:taskID', authenticateUser, (req, res) => {
     // Delete the task from the database
     const deleteTaskQuery = `
         DELETE FROM tasks
-        WHERE taskID = ?
+        WHERE TaskID = ?
     `;
 
     connection.query(deleteTaskQuery, [taskID], (err, result) => {
@@ -101,8 +91,8 @@ router.put('/api/tasks/:taskID/complete', authenticateUser, (req, res) => {
     // Update the task as completed in the database
     const completeTaskQuery = `
         UPDATE tasks
-        SET completed = true, completedDate = NOW()
-        WHERE taskID = ?
+        SET Completed = true, CompletedDate = NOW()
+        WHERE TaskID = ?
     `;
 
     connection.query(completeTaskQuery, [taskID], (err, result) => {
