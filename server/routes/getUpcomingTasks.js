@@ -58,7 +58,7 @@ router.get("/api/all", authenticateUser, (req, res) => {
     FROM tasks t
     JOIN categories c ON t.CategoryID = c.CategoryID
     WHERE t.UserID = ?
-    ORDER BY t.Deadline DESC;
+    ORDER BY t.TaskID DESC;
     `;
 
   connection.query(getUpcomingTasksQuery, [userID], (err, tasksResult) => {
