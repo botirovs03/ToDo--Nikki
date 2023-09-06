@@ -70,4 +70,29 @@ router.get("/api/tasks/all", authenticateUser, (req, res) => {
   });
 });
 
+router.get("/api/tasks/today", authenticateUser, (req, res) => {
+    // const userID = req.params.userID;
+    let userID = req.userId;
+    console.log("hello" + userID);
+    // Retrieve upcoming tasks associated with the specified userID
+    const getUpcomingTasksQuery = `
+    SELECT *
+    FROM tasks
+    WHERE UserID = ? AND Completed = false AND DATE(Deadline) = CURDATE()
+    ORDER BY Deadline ASC;
+    
+      `;
+  
+    connection.query(getUpcomingTasksQuery, [userID], (err, tasksResult) => {
+      if (err) {
+        console.error("Error retrieving upcoming tasks:", err);
+        return res
+          .status(500)
+          .json({ error: "An error occurred while retrieving upcoming tasks" });
+      }
+  
+      return res.status(200).json(tasksResult);
+    });
+  });
+
 module.exports = router;

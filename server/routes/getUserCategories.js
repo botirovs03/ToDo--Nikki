@@ -8,8 +8,17 @@ router.get("/api/categories", authenticateUser, (req, res) => {
   console.log(userID);
   // Retrieve categories associated with the specified userID
   const getCategoryQuery = `
-        SELECT * FROM categories
-        WHERE userID = ?
+  SELECT
+  c.*,
+  COUNT(t.CategoryID) AS taskCount
+FROM
+  categories c
+LEFT JOIN
+  tasks t ON c.CategoryID = t.CategoryID
+WHERE
+  c.userID = ?
+GROUP BY
+  c.CategoryID;
     `;
 
   connection.query(getCategoryQuery, [userID], (err, categoryResult) => {

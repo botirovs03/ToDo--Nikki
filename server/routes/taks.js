@@ -4,10 +4,10 @@ const connection = require('../config/db');
 const router = express.Router();
 
 router.post('/api/task', authenticateUser, (req, res) => {
-    const { categoryName, taskName, description, priority, deadline } = req.body;
+    const { categoryID, taskName, description, priority, deadline } = req.body;
 
     // Validate input data
-    if (!categoryName || !taskName || !priority || !deadline) {
+    if (!categoryID || !taskName || !priority || !deadline) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -17,14 +17,12 @@ router.post('/api/task', authenticateUser, (req, res) => {
     // Insert the task into the Tasks table
     const insertTaskQuery = `
         INSERT INTO Tasks (UserID, CategoryID, TaskName, Description, Priority, Deadline, Completed)
-        SELECT ?, CategoryID, ?, ?, ?, ?, ?
-        FROM Categories
-        WHERE UserID = ? AND CategoryName = ?
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
     connection.query(
         insertTaskQuery,
-        [userID, taskName, description, priority, deadline, false, userID, categoryName],
+        [userID, categoryID, taskName, description, priority, deadline, false],
         (error, results, fields) => {
             if (error) {
                 console.error(error);
