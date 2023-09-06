@@ -164,4 +164,9 @@ router.delete('/api/users/:userID', authenticateUser, async (req, res) => {
     }
 });
 
+
+router.get('/api/checkuser', authenticateUser, async (req, res) => {
+    res.status(200).json({ message: 'User Logged In' });
+});
+
 module.exports = router;

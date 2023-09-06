@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 
-router.post('/api/users/categories', authenticateUser, async (req, res) => {
+router.post('/api/categories', authenticateUser, async (req, res) => {
     const userID = req.userId; // Get the authenticated user's ID
     const { categoryName } = req.body;
 
@@ -41,7 +41,7 @@ router.post('/api/users/categories', authenticateUser, async (req, res) => {
     }
 });
 
-router.put('/api/users/categories/:categoryID', authenticateUser, async (req, res) => {
+router.put('/api/categories/:categoryID', authenticateUser, async (req, res) => {
     const userID = req.userId; // Get the authenticated user's ID
     const categoryID = req.params.categoryID;
     const { categoryName } = req.body;
@@ -78,7 +78,7 @@ router.put('/api/users/categories/:categoryID', authenticateUser, async (req, re
     }
 });
 
-router.delete('/api/users/categories/:categoryID', authenticateUser, async (req, res) => {
+router.delete('/api/categories/:categoryID', authenticateUser, async (req, res) => {
     const userID = req.userId; // Get the authenticated user's ID
     const categoryID = req.params.categoryID;
 
