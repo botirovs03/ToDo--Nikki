@@ -1,4 +1,6 @@
 const express = require("express");
+const moment = require("moment-timezone");
+
 const authenticateUser = require("../middleware/authenticateUser");
 const connection = require("../config/db");
 const router = express.Router();
@@ -118,12 +120,25 @@ router.get("/api/all", authenticateUser, (req, res) => {
         .status(500)
         .json({ error: "An error occurred while retrieving upcoming tasks" });
     }
+    const formattedTasksResult = tasksResult.map((task) => {
+      // Assuming task.date is a database column containing date-time information
+      const dateTime = moment(task.Deadline);
 
-    return res.status(200).json(tasksResult);
+      // Format the date-time in the desired format
+      const formattedDateTime = dateTime.format("YYYY-MM-DD HH:mm:ss");
+
+      // Return the formatted date-time
+      return {
+        ...task,
+        Deadline: formattedDateTime,
+      };
+    });
+    console.log(formattedTasksResult);
+    return res.status(200).json(formattedTasksResult);
   });
 });
 
-router.get("/api/tasks/today", authenticateUser, (req, res) => {
+router.get("/api/today", authenticateUser, (req, res) => {
   // const userID = req.params.userID;
   let userID = req.userId;
   console.log("hello" + userID);
@@ -131,22 +146,20 @@ router.get("/api/tasks/today", authenticateUser, (req, res) => {
   const getUpcomingTasksQuery = `
   SELECT *
   FROM tasks
-  WHERE UserID = ? AND Completed = false AND DATE(Deadline) = CURDATE()
+  WHERE UserID = ? AND Completed = false AND DATE(Deadline) = ?
   ORDER BY Deadline ASC;
     `;
-
-  connection.query(getUpcomingTasksQuery, [userID], (err, tasksResult) => {
+  const dateTime = moment().format("YYYY-MM-DD");
+  connection.query(getUpcomingTasksQuery, [userID, dateTime], (err, tasksResult) => {
     if (err) {
       console.error("Error retrieving upcoming tasks:", err);
       return res
         .status(500)
         .json({ error: "An error occurred while retrieving upcoming tasks" });
     }
-
+    console.log(tasksResult)
     return res.status(200).json(tasksResult);
   });
 });
-
-
 
 module.exports = router;
