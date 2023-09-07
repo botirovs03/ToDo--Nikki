@@ -38,13 +38,33 @@ app.use(taskRoutes);
 app.use(getUserCategories);
 app.use(getUpcomingTasks);
 
+function listRoutes(app) {
+  const routes = [];
+  
+  // Iterate through the app's router stack
+  app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+      // Routes registered directly on the app
+      routes.push(middleware.route);
+    } else if (middleware.name === 'router') {
+      // Routes registered through app.use()
+      middleware.handle.stack.forEach((handler) => {
+        routes.push(handler.route);
+      });
+    }
+  });
+  
+  return routes;
+}
+
+
 // Define a custom route to list all APIs
 app.get("/api-list", (req, res) => {
   const routes = app._router.stack
-    .filter((r) => r.route)
+    .filter((r) => r.path)
     .map((r) => ({
-      method: Object.keys(r.route.methods)[0].toUpperCase(),
-      path: r.route.path,
+      // method: Object.keys(r),
+      path: r.path,
     }));
 
   res.json({ routes });
@@ -56,5 +76,13 @@ app.get('/', (req, res) =>{
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
+  
+  // List all routes after the server starts
+  const allRoutes = listRoutes(app);
+  console.log('List of all routes:');
+  allRoutes.forEach((route) => {
+    console.log(`${route.stack[0].method.toUpperCase()} - ${route.path}`);
+  });
+  
 });
 
