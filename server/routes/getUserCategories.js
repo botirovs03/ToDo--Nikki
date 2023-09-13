@@ -75,37 +75,6 @@ router.get("/api/tasks/user/:userID", authenticateUser, (req, res) => {
   });
 });
 
-router.get("/api/tasks/:taskID", authenticateUser, (req, res) => {
-  const taskID = req.params.taskID;
-  console.log(taskID);
-  // Retrieve details of the specified task
-  const getTaskQuery = `
-    SELECT t.*, c.CategoryName
-    FROM tasks t
-    JOIN categories c ON t.CategoryID = c.CategoryID
-    WHERE t.TaskID = ?
-    ORDER BY t.Deadline DESC;
-    `;
 
-  connection.query(getTaskQuery, [taskID], (err, taskResult) => {
-    if (err) {
-      console.error("Error retrieving task:", err);
-      return res
-        .status(500)
-        .json({ error: "An error occurred while retrieving the task" });
-    }
-
-    try {
-      if (taskResult.length === 0) {
-        throw new Error("Task not found");
-      }
-
-      return res.status(200).json(taskResult[0]);
-    } catch (error) {
-      console.error("Task retrieval error:", error.message);
-      return res.status(404).json({ error: error.message });
-    }
-  });
-});
 
 module.exports = router;
