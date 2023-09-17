@@ -6,7 +6,7 @@ import "../general.css";
 import axios from "axios";
 import * as qs from "qs";
 import Tasks from "../../htmlAssets/task/task";
-import CreateTask from "../../htmlAssets/CreateTask/2/CreateTask";
+import CreateTask from "../../htmlAssets/CreateTask/CreateTask";
 import TaskDetails from "../../htmlAssets/details/details";
 import {
   faArrowDownWideShort,
