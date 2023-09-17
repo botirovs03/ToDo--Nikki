@@ -23,7 +23,7 @@ router.post("/api/task", authenticateUser, (req, res) => {
 
   // Insert the task into the Tasks table
   const insertTaskQuery = `
-        INSERT INTO Tasks (UserID, CategoryID, TaskName, Description, Priority, Deadline, Completed)
+        INSERT INTO tasks (UserID, CategoryID, TaskName, Description, Priority, Deadline, Completed)
         VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 

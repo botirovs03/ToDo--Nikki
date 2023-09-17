@@ -23,7 +23,7 @@ function Login() {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: "http://" + window.location.hostname + ":3001/api/checkuser",
+        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/checkuser",
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -63,7 +63,7 @@ function Login() {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://" + window.location.hostname + ":3001/api/auth",
+      url: window.location.protocol + "//" + window.location.hostname + ":3001/api/auth",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },

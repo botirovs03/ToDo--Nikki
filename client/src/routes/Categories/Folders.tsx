@@ -55,7 +55,7 @@ const Folder = ({ categories, triggerFetch }: any) => {
         method: "put",
         maxBodyLength: Infinity,
         url:
-          "http://" +
+          window.location.protocol + "//" +
           window.location.hostname +
           ":3001/api/categories/" +
           category.CategoryID,

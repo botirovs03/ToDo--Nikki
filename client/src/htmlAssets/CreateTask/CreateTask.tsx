@@ -69,7 +69,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: "http://" + window.location.hostname + ":3001/api/categories",
+        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/categories",
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -128,7 +128,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
     if (user.UserID === null) {
       addTaskToLocalstorage(task);
       handleReset();
-      toastr.success("Task Created Successfully");
+      toastr.success("タスクが作成されました");
       updateTaskData(task);
     } else {
       const date = new Date().toJSON().slice(0, 10);
@@ -144,7 +144,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://" + window.location.hostname + ":3001/api/task",
+        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/task",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: "Bearer " + token,
@@ -156,7 +156,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
         .request(config)
         .then((response) => {
           handleReset();
-          toastr.success("Task Created Successfully");
+          toastr.success("タスクが作成されました");
           const newTask = response.data as Task;
           updateTaskData(newTask);
         })
@@ -193,7 +193,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
 
       // Reset form or perform other actions as needed
       handleReset();
-      toastr.success("Task Updated Successfully");
+      toastr.success("タスクが更新されました");
       TaskIDNull();
     } else {
       // User is not a guest, make an API request as before
@@ -209,7 +209,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
       let config = {
         method: "put",
         maxBodyLength: Infinity,
-        url: "http://" + window.location.hostname + ":3001/api/tasks/" + TaskID,
+        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/tasks/" + TaskID,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: "Bearer " + token,
@@ -225,7 +225,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
 
           // Reset form or perform other actions as needed
           handleReset();
-          toastr.success("Task Updated Successfully");
+          toastr.success("タスクが更新されました");
           const newTask = response.data as Task;
           updateTaskData(newTask);
           TaskIDNull();
@@ -272,7 +272,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
           method: "get",
           maxBodyLength: Infinity,
           url:
-            "http://" + window.location.hostname + ":3001/api/tasks/" + taskID,
+            window.location.protocol + "//" + window.location.hostname + ":3001/api/tasks/" + taskID,
           headers: {
             Authorization: "Bearer " + token,
           },
@@ -348,7 +348,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
                   />
                   <div className={styles.underline}></div>
                   <label className={styles.label}>
-                    タスクのタイトルを入力してください
+                    タイトルを入力してください
                   </label>
                 </div>
               </div>
@@ -454,9 +454,9 @@ const CreateTask: React.FC<CreateTaskProps> = ({
             >
               リセット
             </button>
-            <button className={styles.btn + " " + styles.delete}>
-              削除する
-            </button>
+            {/* <button className={styles.btn + " " + styles.delete}>
+              
+            </button> */}
             {TaskID ? (
               <button
                 type="button"
@@ -467,7 +467,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
               </button>
             ) : (
               <button className={styles.btnLocal} type="submit">
-                タスクの追加
+                追加
               </button>
             )}
           </div>
