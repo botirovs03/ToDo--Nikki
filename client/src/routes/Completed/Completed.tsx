@@ -47,7 +47,7 @@ async function fetchTaskData() {
   const config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: "http://" + window.location.hostname + ":3001/api/complete",
+    url: window.location.protocol + "//" + window.location.hostname + ":3001/api/complete",
     headers: {
       Authorization: "Bearer " + token,
     },
@@ -152,7 +152,7 @@ export default function All() {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: "http://" + window.location.hostname + ":3001/api/categories",
+        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/categories",
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -186,7 +186,7 @@ export default function All() {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: "http://" + window.location.hostname + ":3001/api/tasks/" + TaskID,
+        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/tasks/" + TaskID,
         headers: {
           Authorization: "Bearer " + token,
         },

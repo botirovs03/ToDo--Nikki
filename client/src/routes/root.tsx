@@ -84,7 +84,7 @@ function DashboardSideBarMenu() {
         let config = {
           method: "get",
           maxBodyLength: Infinity,
-          url: "http://" + window.location.hostname + ":3001/api/checkuser",
+          url: window.location.protocol + "//" + window.location.hostname + ":3001/api/checkuser",
           headers: {
             Authorization: "Bearer " + token,
           },
@@ -102,7 +102,49 @@ function DashboardSideBarMenu() {
         // Set the user data in state
         setUserData(userData);
       }
-    } catch (error) {}
+    } catch (error) {
+
+        const guestUser = {
+          UserName: "ゲスト",
+          UserID: null,
+        };
+
+        localStorage.setItem("ActiveUser", JSON.stringify(guestUser));
+
+        // Check if the "categories" and "tasks" tables exist in local storage
+        let categories = localStorage.getItem("categories") || "";
+        let tasks = localStorage.getItem("tasks") || "";
+
+        if (!categories) {
+          // Categories table doesn't exist, create it with the default category
+          let category = [
+            {
+              CategoryID: 1,
+              CategoryName: "デフォルト",
+            },
+          ];
+          localStorage.setItem("categories", JSON.stringify(category));
+        }
+
+        if (!tasks) {
+          // Tasks table doesn't exist, create it with the sample task
+          let task = [
+            {
+              TaskID: 1,
+              CategoryID: 1, // CategoryID for the default category
+              TaskName: "サンプル",
+              Description: "This is a sample task description.",
+              Priority: "優先",
+              Deadline: "2023-09-14 04:00:00", // Replace with the actual deadline
+              Completed: 0, // 0 for not completed, 1 for completed
+              CompletedDate: null, // Set to null for not completed, or provide a timestamp for completed
+            },
+          ];
+          localStorage.setItem("tasks", JSON.stringify(task));
+        }
+        // Set the guest user data in state
+        setUserData(guestUser);
+    }
   }
 
   useEffect(() => {

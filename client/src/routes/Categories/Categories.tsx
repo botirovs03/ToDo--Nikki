@@ -39,7 +39,7 @@ export default function Categories() {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://" + window.location.hostname + ":3001/api/categories",
+        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/categories",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: "Bearer " + token,
@@ -75,7 +75,7 @@ export default function Categories() {
       const config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: "http://" + window.location.hostname + ":3001/api/categories",
+        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/categories",
         headers: {
           Authorization: "Bearer " + token,
         },

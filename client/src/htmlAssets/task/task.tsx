@@ -57,7 +57,7 @@ export default function Tasks({
       let config = {
         method: "delete",
         maxBodyLength: Infinity,
-        url: "http://" + window.location.hostname + ":3001/api/tasks/" + TaskID,
+        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/tasks/" + TaskID,
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -112,7 +112,7 @@ export default function Tasks({
         method: "put",
         maxBodyLength: Infinity,
         url:
-          "http://" +
+          window.location.protocol + "//" +
           window.location.hostname +
           ":3001/api/tasks/" +
           TaskID +
