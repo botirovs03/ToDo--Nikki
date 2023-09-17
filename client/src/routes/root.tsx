@@ -84,7 +84,7 @@ function DashboardSideBarMenu() {
         let config = {
           method: "get",
           maxBodyLength: Infinity,
-          url: window.location.protocol + "//" + window.location.hostname + ":3001/api/checkuser",
+          url: window.location.origin + "/api/checkuser",
           headers: {
             Authorization: "Bearer " + token,
           },

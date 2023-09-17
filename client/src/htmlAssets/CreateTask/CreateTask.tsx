@@ -69,7 +69,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/categories",
+        url: window.location.origin + "/api/categories",
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -144,7 +144,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/task",
+        url: window.location.origin + "/api/task",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: "Bearer " + token,
@@ -209,7 +209,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
       let config = {
         method: "put",
         maxBodyLength: Infinity,
-        url: window.location.protocol + "//" + window.location.hostname + ":3001/api/tasks/" + TaskID,
+        url: window.location.origin + "/api/tasks/" + TaskID,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: "Bearer " + token,
@@ -272,7 +272,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
           method: "get",
           maxBodyLength: Infinity,
           url:
-            window.location.protocol + "//" + window.location.hostname + ":3001/api/tasks/" + taskID,
+            window.location.origin + "/api/tasks/" + taskID,
           headers: {
             Authorization: "Bearer " + token,
           },
