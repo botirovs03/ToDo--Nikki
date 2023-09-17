@@ -1,0 +1,112 @@
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.TaskContainer {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dark-blue) var(--custom-white);
+  padding: 20px 0 20px 20px;
+}
+
+.GetButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.GetButton div div{
+  text-align: center;
+  padding: 3px;
+  width: 80px;
+  border-radius: 5px;
+  /* background-color: aqua; */
+  box-shadow: 0 0 5px 2px #ddd;
+  user-select: none;
+  cursor: pointer;
+}
+
+.GetButton div div:hover {
+  transform: scale(1.03);
+  border-radius: 5px;
+  box-shadow: 0 0 8px 3px #ddd;
+}
+
+.GetButton div div:active {
+  transform: scale(0.95);
+  border-radius: 5px;
+  box-shadow: 0 0 2px 1px #ddd;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap");
+
+/* Remove default appearance */
+.formSelect .option {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.formSelect {
+  outline: none;
+  padding: 10px;
+  background-color: lightblue;
+  font-family: Arial, sans-serif;
+  gap: 1em;
+  height: 40px;
+  background: #fff;
+  padding: 5px;
+  width: 100%;
+  width: 200px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.option {
+  display: none;
+  cursor: pointer;
+  display: flex;
+  height: 55px;
+  cursor: pointer;
+  padding: 0 16px;
+  border-radius: 8px;
+  align-items: center;
+  background: #fff;
+}
+
+.option:hover {
+  background: #f2f2f2;
+}
+
+.sortBar {
+  padding-right: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.sortBar button {
+  background-color: #00000000;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 800;
+  color: #777;
+}
+
+.Calendar {
+  padding-left: 21px;
+}
+
+
+
+
+@media screen and (max-width: 600px) {
+  .TaskContainer {
+    padding: 20px 0 80px 20px;
+  }
+}

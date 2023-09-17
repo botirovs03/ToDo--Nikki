@@ -1,0 +1,139 @@
+.categoryBox {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content:space-evenly;
+  margin: 25px;
+}
+
+.categoryFolders {
+  position: relative;
+  background-color: white;
+  box-shadow: 0px 0px 10px 0.5px #eee;
+  border-radius: 10px;
+  padding: 20px 0 0 20px;
+  margin: 10px;
+  width: 140px;
+  aspect-ratio: 1/1.1;
+  user-select: none;
+  transition: all 0.1s;
+}
+
+.categoryFolders:hover {
+  box-shadow: 3px 3px 5px 0.5px #aaa;
+  transform: scale(1.02);
+}
+
+.categoryFoldersBlank {
+  visibility: hidden;
+  /* border: 1px solid black; */
+  border-radius: 10px;
+  /* padding: 16px; */
+  margin: 0 10px;
+  width: 140px;
+  height: 0;
+  border: 1px solid black;
+}
+/* .categoryBox::after {
+  content: "";
+  flex: auto; 
+} */
+
+.icon {
+  color: #045776;
+  font-size: 35px;
+  /* width: 30px; */
+  margin-bottom: 30px;
+}
+
+.categoryName {
+  font-weight: 800;
+  font-size: 1.3em;
+}
+
+.categoryCount {
+  color: gray;
+}
+
+.categoryCount::after {
+  content: "タスク";
+}
+
+.createCategory {
+  font-weight: 800;
+  font-size: 1em;
+}
+
+.input {
+  appearance: none;
+  border: none;
+  outline: none;
+  background-color: white;
+  font-size: 1rem;
+  width: 90%;
+}
+
+.buttons {
+  text-align: right;
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 20px;
+}
+
+.update {
+  color: #0d6efd;
+  opacity: 0.6;
+}
+.delete {
+  color: #dc3545;
+  opacity: 0.6;
+}
+
+.cancel {
+  color: #dc3545;
+  opacity: 0.6;
+}
+.update:hover {
+  border-radius: 5px;
+  transform: scale(1.05);
+}
+
+.delete:hover {
+  transform: scale(1.05);
+  border-radius: 5px;
+}
+
+.cancel:hover {
+  transform: scale(1.2);
+  border-radius: 5px;
+}
+.update:active {
+  border-radius: 5px;
+  transform: scale(0.9);
+}
+
+.delete:active {
+  transform: scale(0.9);
+  border-radius: 5px;
+}
+
+.UpdateCategory {
+  font-weight: 800;
+  font-size: 1em;
+  width: 80%;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid red;
+}
+
+
+.UpdateCategory:focus {
+  font-weight: 800;
+  font-size: 1em;
+  content: "hello";
+  width: 80%;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid black;
+}

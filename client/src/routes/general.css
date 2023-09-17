@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* *,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+} */
+
+.top {
+  /* display: flex; */
+  /* align-items: baseline; */
+  /* justify-content: space-between; */
+  color: #212121;
+  font-family: Inter;
+  /* line-height: normal; */
+  padding: 20px;
+  padding-right: 6px;
+  /* border: 1px solid black; */
+  /* height: 120px; */
+}
+
+.CreateTask {
+  position: relative;
+  height: 0px;
+  /* margin-top: -150px; */
+  /* transform: scaleY(0); */
+  overflow:hidden;
+  transition: all 0.4s;
+}
+
+
+.closeButton {
+  position: absolute;
+  right: 12px;
+  margin-top: 8px;
+}
+.closeButton:hover {
+  transform: scale(1.1);
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+label {
+  white-space: nowrap;
+}
+
+.float{
+  position:fixed;
+  width:50px;
+  height:50px;
+  bottom:100px;
+  right:40px;
+  background-color:#045776;
+  color:#FFF;
+  border-radius:50%;
+  text-align:center;
+  box-shadow: 2px 2px 3px #999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.float:active{
+  transform: scale(0.9);
+}
+
+.my-float{
+  font-size: large;
+  font-weight: bold;
+}
