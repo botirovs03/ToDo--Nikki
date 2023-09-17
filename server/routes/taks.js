@@ -20,7 +20,6 @@ router.post("/api/task", authenticateUser, (req, res) => {
   deadlineJap = moment(deadline).format('YYYY-MM-DD HH:mm:ss');;
 
   const userID = req.userId; // Get the authenticated user's ID from req.user
-  console.log("userID is >>>>>>> " + userID);
 
   // Insert the task into the Tasks table
   const insertTaskQuery = `
@@ -129,7 +128,6 @@ router.put("/api/tasks/:taskID/complete", authenticateUser, (req, res) => {
     const currentStatus = rows[0].completed;
     const newStatus = !currentStatus;
     let completedate = moment().format('YYYY-MM-DD HH:mm:ss');;
-    console.log(completedate)
     if (!newStatus) {
         completedate = null;
     } 

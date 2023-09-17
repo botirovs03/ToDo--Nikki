@@ -8,7 +8,6 @@ const router = express.Router();
 router.get("/api/tasks/upcoming", authenticateUser, (req, res) => {
   // const userID = req.params.userID;
   let userID = req.userId;
-  console.log("hello" + userID);
   // Retrieve upcoming tasks associated with the specified userID
   const getUpcomingTasksQuery = `
         SELECT * FROM tasks
@@ -53,7 +52,6 @@ router.get("/api/tasks/overdue/:userID", authenticateUser, (req, res) => {
 router.get("/api/uncomplete", authenticateUser, (req, res) => {
   // const userID = req.params.userID;
   let userID = req.userId;
-  console.log("hello" + userID);
   // Retrieve upcoming tasks associated with the specified userID
   const getUpcomingTasksQuery = `
   SELECT t.*, c.CategoryName
@@ -78,7 +76,6 @@ router.get("/api/uncomplete", authenticateUser, (req, res) => {
 router.get("/api/complete", authenticateUser, (req, res) => {
   // const userID = req.params.userID;
   let userID = req.userId;
-  console.log("hello" + userID);
   // Retrieve upcoming tasks associated with the specified userID
   const getUpcomingTasksQuery = `
   SELECT t.*, c.CategoryName
@@ -132,7 +129,6 @@ router.get("/api/all", authenticateUser, (req, res) => {
         Deadline: formattedDateTime,
       };
     });
-    console.log(formattedTasksResult);
     return res.status(200).json(formattedTasksResult);
   });
 });
@@ -169,7 +165,6 @@ router.get("/api/calendar", authenticateUser, (req, res) => {
         Deadline: formattedDateTime,
       };
     });
-    console.log(formattedTasksResult);
     return res.status(200).json(formattedTasksResult);
   });
 });
@@ -177,7 +172,6 @@ router.get("/api/calendar", authenticateUser, (req, res) => {
 router.get("/api/today", authenticateUser, (req, res) => {
   // const userID = req.params.userID;
   let userID = req.userId;
-  console.log("hello" + userID);
   // Retrieve upcoming tasks associated with the specified userID
   const getUpcomingTasksQuery = `
   SELECT t.*, c.CategoryName
@@ -187,7 +181,6 @@ router.get("/api/today", authenticateUser, (req, res) => {
   ORDER BY Deadline ASC;
     `;
   const dateTime = moment().format("YYYY-MM-DD");
-  console.log(dateTime)
   connection.query(getUpcomingTasksQuery, [userID, dateTime], (err, tasksResult) => {
     if (err) {
       console.error("Error retrieving upcoming tasks:", err);
@@ -208,14 +201,12 @@ router.get("/api/today", authenticateUser, (req, res) => {
         Deadline: formattedDateTime,
       };
     });
-    console.log(formattedTasksResult);
     return res.status(200).json(formattedTasksResult);
   });
 });
 
 router.get("/api/tasks/:taskID", authenticateUser, (req, res) => {
   const taskID = req.params.taskID;
-  console.log(taskID);
   // Retrieve details of the specified task
   const getTaskQuery = `
     SELECT t.*, c.CategoryName
@@ -250,7 +241,6 @@ router.get("/api/tasks/:taskID", authenticateUser, (req, res) => {
           Deadline: formattedDateTime,
         };
       });
-      console.log(formattedTasksResult);
 
       return res.status(200).json(formattedTasksResult[0]);
     } catch (error) {

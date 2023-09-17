@@ -80,7 +80,6 @@ router.post("/api/auth", async (req, res) => {
         }
 
         const user = results[0];
-        console.log(user);
         const passwordMatch = await bcrypt.compare(password, user.Password);
 
         if (!passwordMatch) {

@@ -169,8 +169,9 @@ export default function All() {
 
   const openDetail = (TaskID: number) => {
     const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
-    if (token === null || token === "guestToken") {
+      if (user.UserID == null) {
       // User is a guest, fetch task details from local storage
       const taskDetailFromLocalStorage = getTaskFromLocalStorage(TaskID);
       setTaskdataDetail(taskDetailFromLocalStorage);
