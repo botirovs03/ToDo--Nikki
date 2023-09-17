@@ -18,7 +18,6 @@ function Login() {
   async function fetchUserData() {
     try {
       // const token = localStorage.getItem("token") as string;
-      const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
       const token = localStorage.getItem("token");
       let config = {
