@@ -45,11 +45,9 @@ export default function Tasks({
   ): void => {
     event.stopPropagation();
 
-    // Check if the user is a guest (UserID is null)
-    const storedValue = localStorage.getItem("ActiveUser");
-    const isGuest = !storedValue || JSON.parse(storedValue)?.UserID === null;
+    const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
-    if (isGuest) {
+    if (user.UserID == null) {
       // User is a guest, delete from local storage
       deleteTaskById(TaskID); // Use the deleteTaskById function from the previous response
       updateTaskData(); // Trigger data update after deletion
