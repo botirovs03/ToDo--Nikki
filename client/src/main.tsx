@@ -31,30 +31,38 @@ if (!localStorage.getItem("ActiveUser")) {
   localStorage.setItem("ActiveUser", JSON.stringify(defaultActiveUser));
 }
 
-if (!localStorage.getItem("tasks")) {
-  // Set a default tasks array if needed
-  const defaultTask = {
-    TaskID: 1, // タスクのユニークな識別子
-    UserID: null, // ユーザーID（ゲストユーザーの場合はnull）
-    CategoryID: 1, // カテゴリーのID（適切なカテゴリーに割り当ててください）
-    TaskName: "サンプルタスク", // タスクの名前
-    Description: "これはサンプルタスクです。", // タスクの説明
-    Priority: "低", // タスクの優先度（例: 低、中、高）
-    Deadline: "2023-09-30", // タスクの締め切り日（ISO形式: YYYY-MM-DD）
-    // 他のタスクのプロパティを必要に応じて追加してください
-  };
+// Check if the "categories" and "tasks" tables exist in local storage
+let categories = localStorage.getItem("categories") || "";
+let tasks = localStorage.getItem("tasks") || "";
 
-  // このデフォルトタスクをローカルストレージに保存できます：
-  localStorage.setItem("tasks", JSON.stringify([defaultTask])); // Store sample task in tasks table
+if (!categories) {
+  // Categories table doesn't exist, create it with the default category
+  let category = [
+    {
+      CategoryID: 1,
+      CategoryName: "デフォルト",
+    },
+  ];
+  localStorage.setItem("categories", JSON.stringify(category));
 }
 
-const defaultCategory = {
-  CategoryID: 1,
-  CategoryName: "デフォルト",
-};
+if (!tasks) {
+  // Tasks table doesn't exist, create it with the sample task
+  let task = [
+    {
+      TaskID: 1,
+      CategoryID: 1, // CategoryID for the default category
+      TaskName: "サンプル",
+      Description: "This is a sample task description.",
+      Priority: "優先",
+      Deadline: "2023-09-14 04:00:00", // Replace with the actual deadline
+      Completed: 0, // 0 for not completed, 1 for completed
+      CompletedDate: null, // Set to null for not completed, or provide a timestamp for completed
+    },
+  ];
+  localStorage.setItem("tasks", JSON.stringify(task));
+}
 
-// このデフォルトカテゴリーをローカルストレージに保存できます：
-localStorage.setItem("categories", JSON.stringify([defaultCategory]));
 
 const router = createBrowserRouter([
   {

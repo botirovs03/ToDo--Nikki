@@ -3,6 +3,8 @@ import axios from "axios";
 import "../../general.css";
 import st from "./task.module.css";
 import { format } from "date-fns";
+import { faFireFlameCurved } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Task {
   Priority: "低い" | "普通" | "優先";
@@ -18,7 +20,6 @@ const priorityClassMap = {
   普通: "normal",
   優先: "critical",
 };
-
 
 interface TasksProps {
   taskdata: Task[];
@@ -197,8 +198,23 @@ export default function Tasks({
             </div>
 
             <div className={st.right}>
-              <div className={st.deadline}>
-                {formatDeadline(taskdatas.Deadline)}
+              <div
+                className={
+                  new Date(taskdatas.Deadline) > new Date() ||
+                  Boolean(taskdatas.Completed)
+                    ? st.deadline
+                    : st.deadlineExp
+                }
+              >
+                {new Date(taskdatas.Deadline) > new Date() ||
+                Boolean(taskdatas.Completed) ? (
+                  formatDeadline(taskdatas.Deadline)
+                ) : (
+                  <>
+                    <FontAwesomeIcon icon={faFireFlameCurved} />{" "}
+                    {formatDeadline(taskdatas.Deadline)}
+                  </>
+                )}
               </div>
               <div className={st.buttons}>
                 <div className={st.details}>詳細</div>
@@ -231,7 +247,7 @@ function deleteTaskById(taskID: any) {
     let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
 
     // Find the index of the task with the specified ID
-    const taskIndex = tasks.findIndex((t:any) => t.TaskID === taskID);
+    const taskIndex = tasks.findIndex((t: any) => t.TaskID === taskID);
 
     if (taskIndex !== -1) {
       // If the task was found, remove it from the tasks array
@@ -249,13 +265,13 @@ function deleteTaskById(taskID: any) {
   }
 }
 
-function toggleTaskCompletedStatus(TaskID:any) {
+function toggleTaskCompletedStatus(TaskID: any) {
   try {
     // Retrieve tasks from local storage
     const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
 
     // Find the task with the specified ID
-    const taskIndex = tasks.findIndex((t:any) => t.TaskID === TaskID);
+    const taskIndex = tasks.findIndex((t: any) => t.TaskID === TaskID);
 
     if (taskIndex !== -1) {
       // Task found in local storage, toggle its completed status

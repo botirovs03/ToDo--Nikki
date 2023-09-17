@@ -155,3 +155,9 @@
   color: #aaa;
   padding: 6px 10px;
 }
+
+.deadlineExp {
+  text-align: right;
+  color: red;
+  padding: 6px 10px;
+}

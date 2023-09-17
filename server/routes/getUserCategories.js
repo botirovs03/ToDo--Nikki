@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get("/api/categories", authenticateUser, (req, res) => {
   const userID = req.userId;
-  console.log(userID);
   // Retrieve categories associated with the specified userID
   const getCategoryQuery = `
   SELECT

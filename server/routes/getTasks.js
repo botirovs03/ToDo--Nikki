@@ -48,7 +48,6 @@ router.get('/api/tasks/overdue/:userID', authenticateUser, (req, res) => {
 router.get("/api/tasks/all", authenticateUser, (req, res) => {
   // const userID = req.params.userID;
   let userID = req.userId;
-  console.log("hello" + userID);
   // Retrieve upcoming tasks associated with the specified userID
   const getUpcomingTasksQuery = `
     SELECT t.*, c.CategoryName
@@ -73,7 +72,6 @@ router.get("/api/tasks/all", authenticateUser, (req, res) => {
 router.get("/api/tasks/today", authenticateUser, (req, res) => {
     // const userID = req.params.userID;
     let userID = req.userId;
-    console.log("hello" + userID);
     // Retrieve upcoming tasks associated with the specified userID
     const getUpcomingTasksQuery = `
     SELECT *
