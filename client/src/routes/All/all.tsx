@@ -226,9 +226,7 @@ export default function All() {
 
   const getUpdateData = (TaskID: number) => {
     setCurrentTaskID(TaskID);
-    if (!isOpen) {
-      openElement(false);
-    }
+    openElement(false);
     return TaskID;
   };
 

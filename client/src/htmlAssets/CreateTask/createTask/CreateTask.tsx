@@ -122,11 +122,9 @@ const CreateTask: React.FC<CreateTaskProps> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const token = localStorage.getItem("token");
-
-    if (token === null || token === "guestToken") {
-      // User is a guest, fetch categories from local storage
+    const activeUserJSON = localStorage.getItem("ActiveUser");
+    const user = JSON.parse(activeUserJSON || "{}");
+    if (user.UserID === null) {
       addTaskToLocalstorage(task);
       handleReset();
       toastr.success("Task Created Successfully");
@@ -182,10 +180,9 @@ const CreateTask: React.FC<CreateTaskProps> = ({
       deadline: task.deadline,
     };
 
-    // Check if the user is a guest
-    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
-    if (token === null || token === "guestToken") {
+    if (user.UserID == null) {
       // User is a guest, update the task in local storage
       updateTaskInLocalStorage(taskID, updatedTask);
       updateTaskData(task);
@@ -241,8 +238,9 @@ const CreateTask: React.FC<CreateTaskProps> = ({
   const setUpdateData = useCallback(
     (taskID: any) => {
       const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
-      if (token === null || token === "guestToken") {
+      if (user.UserID == null) {
         // User is a guest, fetch task data from local storage
         const taskData = getTaskFromLocalStorage(taskID);
         if (taskData) {

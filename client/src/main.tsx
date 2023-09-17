@@ -18,7 +18,7 @@ import Uncompleted from "./routes/Uncompleted/Uncompleted";
 // Check if the token exists in local storage
 if (!localStorage.getItem("token")) {
   // If it doesn't exist, set a default token value
-  localStorage.setItem("token", '');
+  localStorage.setItem("token", "");
 }
 
 // Check if other items exist in local storage and set defaults if needed
@@ -63,16 +63,7 @@ if (!tasks) {
   localStorage.setItem("tasks", JSON.stringify(task));
 }
 
-
 const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
   {
     path: "/",
     element: <Root />,
@@ -104,7 +95,14 @@ const router = createBrowserRouter([
       },
     ],
   },
-
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
   {
     path: "/category",
     element: <Categories />,

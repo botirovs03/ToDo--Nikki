@@ -30,14 +30,16 @@ interface TaskData {
 }
 
 async function fetchTaskData() {
+
   const token = localStorage.getItem("token");
-  // Check if the user is a guest (you can use your own condition)
-  if (token === null || token === "guestToken") {
-    // User is a guest, fetch data from local storage
-    const tasksFromLocalStorage =
-      getCompletedTasksFromLocalStorageWithCategoryName();
+    const activeUserJSON = localStorage.getItem("ActiveUser");
+    const user = JSON.parse(activeUserJSON || "{}");
+    if (user.UserID === null) {
+
+    const tasksFromLocalStorage = getCompletedTasksFromLocalStorageWithCategoryName();
     return tasksFromLocalStorage;
   }
+
 
   // User is authenticated, fetch data from the API
   const data = qs.stringify({});
@@ -139,8 +141,9 @@ export default function All() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
-    if (token === null || token === "guestToken") {
+    const activeUserJSON = localStorage.getItem("ActiveUser");
+    const user = JSON.parse(activeUserJSON || "{}");
+    if (user.UserID === null) {
       // User is a guest, fetch categories from local storage
       const categoriesFromLocalStorage = getCategoriesFromLocalStorage();
       setCategories(categoriesFromLocalStorage);
@@ -169,8 +172,9 @@ export default function All() {
 
   const openDetail = (TaskID: number) => {
     const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
-    if (token === null || token === "guestToken") {
+      if (user.UserID == null) {
       // User is a guest, fetch task details from local storage
       const taskDetailFromLocalStorage = getTaskFromLocalStorage(TaskID);
       setTaskdataDetail(taskDetailFromLocalStorage);
@@ -225,9 +229,7 @@ export default function All() {
 
   const getUpdateData = (TaskID: number) => {
     setCurrentTaskID(TaskID);
-    if (!isOpen) {
-      openElement(false);
-    }
+    openElement(false);
     return TaskID;
   };
 
