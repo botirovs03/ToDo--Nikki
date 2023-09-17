@@ -27,7 +27,7 @@ interface TaskData {
   CompletedDate: string | null;
 }
 
-let isOpen: boolean;
+
 
 async function fetchTaskData() {
   const token = localStorage.getItem("token");
@@ -264,7 +264,7 @@ export default function All() {
       }
     }, 400);
 
-    isOpen = true;
+
   }
 
   function closeElement() {
@@ -287,7 +287,7 @@ export default function All() {
     if (createTaskElement) {
       createTaskElement.style.overflow = "hidden";
     }
-    isOpen = false;
+
   }
 
   const handleSort = (criteria: any) => {

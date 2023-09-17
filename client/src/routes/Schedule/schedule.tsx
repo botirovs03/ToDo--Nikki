@@ -17,7 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-let isOpen: boolean;
+
 
 interface TaskData {
   TaskName: string;
@@ -273,7 +273,7 @@ export default function All() {
       }
     }, 400);
 
-    isOpen = true;
+
   }
 
   function closeElement() {
@@ -296,7 +296,7 @@ export default function All() {
     if (createTaskElement) {
       createTaskElement.style.overflow = "hidden";
     }
-    isOpen = false;
+
   }
 
   const handleSort = (criteria: any) => {
