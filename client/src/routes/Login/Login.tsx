@@ -80,9 +80,9 @@ function Login() {
         localStorage.setItem("token", token);
 
         // Navigate to the home page
-        navigate("/");
+        
         fetchUserData().then(() => {
-          window.location.reload();
+          navigate("/");
         });
       })
       .catch((error) => {
