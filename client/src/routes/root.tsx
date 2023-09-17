@@ -37,7 +37,6 @@ function DashboardSideBarMenu() {
       const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
       if (user.UserID == null) {
-        console.log(error);
         // Set ActiveUser to "Guest" and null for UserID
         // Set ActiveUser to "Guest" and null for UserID
         const guestUser = {
