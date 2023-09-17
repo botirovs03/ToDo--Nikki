@@ -5,7 +5,7 @@ import "../general.css";
 import Tasks from "./task/task";
 import axios from "axios";
 import * as qs from "qs";
-import CreateTask from "../../htmlAssets/CreateTask/createTask/CreateTask";
+import CreateTask from "../../htmlAssets/CreateTask/2/CreateTask";
 import TaskDetails from "../../htmlAssets/details/details";
 import Calendar from "./calendar/Calendar";
 import {
