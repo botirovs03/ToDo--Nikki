@@ -1,0 +1,157 @@
+.task {
+  position: relative;
+  background-color: white;
+  border-radius: 5px;
+  padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px 5px 5px 0;
+  box-shadow: -1px 0 1px 2px #eee;
+  z-index: 2;
+}
+
+.taskFold {
+  padding: 8px 0 0 10px;
+  display: inline;
+  position: absolute;
+  width: 30%;
+  height: 28px;
+  margin-top: -10px;
+  margin-left: 4px;
+  border-radius: 5px 30px 0 0;
+  z-index: 0;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+
+.taskFold:hover {
+  content: "";
+  padding: 1px 0 0 10px;
+  display: inline-block;
+  position: absolute;
+  width: 30%;
+  height: 28px;
+  margin-top: -18px;
+  margin-left: 4px;
+  border-radius: 5px 30px 0 0;
+  z-index: 0;
+}
+
+.critical {
+  background-color: #f8d7da;
+}
+
+.normal {
+  background-color: rgba(88, 88, 218, 0.598);
+}
+
+.low {
+  background-color: #d7f8dc;
+}
+
+.critical::after {
+  content: "\25CF"; /* Unicode character escape sequence */
+  color: red;
+  font-size: 1.5em;
+  margin-right: 5px;
+  position: absolute;
+  right: 8%;
+  top: -5px;
+}
+
+.normal::after {
+  content: "\25CF"; /* Unicode character escape sequence */
+  color: #045776;
+  font-size: 1.5em;
+  margin-right: 5px;
+  position: absolute;
+  right: 8%;
+  top: -5px;
+}
+
+.low::after {
+  content: "\25CF"; /* Unicode character escape sequence */
+  color: green;
+  font-size: 1.5em;
+  margin-right: 5px;
+  position: absolute;
+  right: 8%;
+  top: -5px;
+}
+
+
+
+.title {
+  flex: 60%;
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.title svg {
+  display: block;
+  margin-right: 10px;
+}
+
+.title .text {
+  font-family: Inter;
+  font-size: 24px;
+  font-weight: 600;
+  color: #212121;
+}
+
+
+.priority {
+  height: 30px;
+  border-radius: 5px;
+  padding: 6px 10px;
+}
+
+.category {
+  height: 30px;
+  padding: 6px 10px;
+}
+
+
+
+
+.buttons {
+  flex: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content:flex-end;
+}
+
+.buttons div {
+  margin: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.buttons div:active {
+  transform: scale(0.9);
+}
+
+.details {
+  color: #4f4c4c;
+}
+
+.update {
+  color: #0d6efd ;
+}
+
+.delete {
+  color: #dc3545;
+}
+
+.right {
+  /* background-color: red; */
+  flex: 40%;
+  align-items: end;
+}
+
+.deadline {
+  text-align: right;
+  color: #aaa;
+  padding: 6px 10px;
+}
