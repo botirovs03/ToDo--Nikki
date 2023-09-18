@@ -9,12 +9,7 @@ const connection = mysql.createConnection({
   host: '192.168.100.75',
   user: 'bsremote',
   password: '3b3s2001Remote##',
-  database: 'todo',
-  connectTimeout: 40000,
-  reconnect: {
-    maxDelay: 2000, // Maximum delay between reconnection attempts (in milliseconds)
-    initialDelay: 1000, // Initial delay for the first reconnection attempt (in milliseconds)
-  },
+  database: 'todo'
 });
 
 
