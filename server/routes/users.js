@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const authenticateUser = require("../middleware/authenticateUser");
-const connection = require("../config/db"); // Make sure you have the appropriate DB configuration
+const { connection } = require("../config/db"); // Make sure you have the appropriate DB configuration
 
 const SECRET_KEY = "your_secret_key";
 
@@ -38,12 +38,10 @@ router.post("/api/users", async (req, res) => {
             (categoryErr, categoryResult) => {
               if (categoryErr) {
                 console.error(categoryErr);
-                res
-                  .status(500)
-                  .json({
-                    error: "Failed to create default category",
-                    errormsg: categoryErr,
-                  });
+                res.status(500).json({
+                  error: "Failed to create default category",
+                  errormsg: categoryErr,
+                });
               } else {
                 res
                   .status(201)
@@ -133,11 +131,9 @@ router.put("/api/users/:userID", authenticateUser, async (req, res) => {
 
         // Check if the authenticated user is the same as the user being updated
         if (req.userId !== user.userID) {
-          return res
-            .status(403)
-            .json({
-              message: "You do not have permission to update this user.",
-            });
+          return res.status(403).json({
+            message: "You do not have permission to update this user.",
+          });
         }
 
         // Hash the new password if provided
@@ -213,38 +209,44 @@ router.delete("/api/users/:userID", authenticateUser, async (req, res) => {
 
 // Define your API route
 router.get("/api/checkuser", authenticateUser, (req, res) => {
-    try {
-      const userId = req.userId;
-      // Define the SQL query to retrieve user data
-      const sql = "SELECT * FROM users WHERE UserID = ?";
-      
-      // Execute the query with the userId parameter
-      connection.query(sql, [userId], (error, results) => {
-        if (error) {
-          console.error('Error executing SQL query:', error);
-          res.status(500).json({ error: "Internal server error" });
-          return;
-        }
-  
-        // Check if a user with the provided userId exists
-        if (results.length === 0) {
-          res.status(404).json({ message: "User not found" });
-          return;
-        }
-  
-        // Retrieve the user data from the query results
-        const user = results[0];
-  
-        // Access the username from the user data
-        const userName = user.Username;
-  
-        // Respond with the username
-        res.status(200).json({ message: "User Logged In", UserName: userName, UserID: req.userId });
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
+  try {
+    const userId = req.userId;
+    // Define the SQL query to retrieve user data
+    const sql = "SELECT * FROM users WHERE UserID = ?";
+
+    // Execute the query with the userId parameter
+    connection.query(sql, [userId], (error, results) => {
+      if (error) {
+        console.error("Error executing SQL query:", error);
+        res.status(500).json({ error: "Internal server error" });
+        return;
+      }
+
+      // Check if a user with the provided userId exists
+      if (results.length === 0) {
+        res.status(404).json({ message: "User not found" });
+        return;
+      }
+
+      // Retrieve the user data from the query results
+      const user = results[0];
+
+      // Access the username from the user data
+      const userName = user.Username;
+
+      // Respond with the username
+      res
+        .status(200)
+        .json({
+          message: "User Logged In",
+          UserName: userName,
+          UserID: req.userId,
+        });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 module.exports = router;
