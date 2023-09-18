@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const authenticateUser = require("../middleware/authenticateUser");
-const {connection} = require("../config/db"); // Make sure you have the appropriate DB configuration
+const connection = require("../config/db"); // Make sure you have the appropriate DB configuration
 
 const SECRET_KEY = "your_secret_key";
 
