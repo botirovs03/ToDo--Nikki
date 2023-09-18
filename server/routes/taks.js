@@ -125,7 +125,7 @@ router.put("/api/tasks/:taskID/complete", authenticateUser, (req, res) => {
       return res.status(404).json({ error: "Task not found" });
     }
 
-    const currentStatus = rows[0].completed;
+    const currentStatus = rows[0].Completed;
     const newStatus = !currentStatus;
     let completedate = moment().format('YYYY-MM-DD HH:mm:ss');;
     if (!newStatus) {

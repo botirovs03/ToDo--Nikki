@@ -96,6 +96,7 @@ export default function Tasks({
   ): void {
     event.stopPropagation();
     // Check if the user is a guest
+    
     const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
     if (user.UserID == null) {
