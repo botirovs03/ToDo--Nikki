@@ -21,9 +21,9 @@ export default function Categories() {
     e.preventDefault();
 
     // Check if the user is a guest (not logged in)
-    const isGuest = !localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
-    if (isGuest) {
+    if (user.UserID == null) {
       addCategoryToLocal(inputValue); // Add the new category to localStorage
 
       // Clear the input field and trigger a fetch if needed
@@ -64,9 +64,9 @@ export default function Categories() {
   // Function to fetch categories either from API or localStorage
   async function fetchCategories() {
     const token = localStorage.getItem("token");
-    const isGuest = !token; // Check if the user is a guest (no token)
+    const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
-    if (isGuest) {
+    if (user.UserID == null) {
       // If the user is a guest, get categories from localStorage
       const categoriesFromLocal = getCategoriesFromLocalWithTaskCount();
       return categoriesFromLocal;
