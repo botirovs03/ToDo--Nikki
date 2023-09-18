@@ -28,9 +28,9 @@ const Folder = ({ categories, triggerFetch }: any) => {
 
     // Check if the user is a guest (you can use your own logic to determine this)
     // Check if the user is a guest (not logged in)
-    const isGuest = !localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
-    if (isGuest) {
+    if (user.UserID == null) {
       // Update the category in local storage
       const updatedCategory = {
         ...category,
@@ -55,9 +55,7 @@ const Folder = ({ categories, triggerFetch }: any) => {
         method: "put",
         maxBodyLength: Infinity,
         url:
-          window.location.protocol + "//" +
-          window.location.hostname +
-          ":3001/api/categories/" +
+        window.location.origin + "1/api/categories/" +
           category.CategoryID,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -92,7 +90,7 @@ const Folder = ({ categories, triggerFetch }: any) => {
       const config = {
         method: "delete",
         maxBodyLength: Infinity,
-        url: `http://${window.location.hostname}:3001/api/categories/${category.CategoryID}`,
+        url: `${window.location.origin}/api/categories/${category.CategoryID}`,
         headers: {
           Authorization: "Bearer " + token,
         },

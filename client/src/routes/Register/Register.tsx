@@ -18,6 +18,33 @@ const Register: React.FC<RegisterProps> = () => {
     rpassword: "",
   });
 
+  async function fetchUserData() {
+    try {
+      // const token = localStorage.getItem("token") as string;
+
+      const token = localStorage.getItem("token");
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: window.location.origin + "/api/checkuser",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+
+      const response = await axios.request(config);
+
+      // If the request is successful, update the ActiveUser in local storage
+      const userData = {
+        UserName: response.data.UserName,
+        UserID: response.data.UserID,
+      };
+      localStorage.setItem("ActiveUser", JSON.stringify(userData));
+
+      // Set the user data in state
+    } catch (error) {}
+  }
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -51,7 +78,7 @@ const Register: React.FC<RegisterProps> = () => {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: window.location.origin+"/api/users",
+      url: window.location.origin + "/api/users",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
@@ -62,6 +89,7 @@ const Register: React.FC<RegisterProps> = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
+        console.log("new user");
         // just created new user
         // need to post auth data
 
@@ -69,7 +97,7 @@ const Register: React.FC<RegisterProps> = () => {
         config = {
           method: "post",
           maxBodyLength: Infinity,
-          url: window.location.origin+"/api/auth",
+          url: window.location.origin + "/api/auth",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
@@ -81,13 +109,15 @@ const Register: React.FC<RegisterProps> = () => {
           .then((response) => {
             // You can replace this with your own logic
             const token = response.data.token;
-            
-            // Save the user token and status in localStorage
+
             localStorage.setItem("user", "true");
             localStorage.setItem("token", token);
 
             // Navigate to the home page
-            navigate("/");
+
+            fetchUserData().then(() => {
+              navigate("/");
+            });
           })
           .catch((error) => {
             console.log(error);
@@ -193,7 +223,7 @@ const Register: React.FC<RegisterProps> = () => {
         </form>
         <span className="entrance-span">
           現在ログインしていますか？
-          <Link className="entrance-a" to='/login'>
+          <Link className="entrance-a" to="/login">
             ログイン
           </Link>
         </span>

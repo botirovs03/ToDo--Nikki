@@ -56,11 +56,9 @@ export default function Tasks({
   ): void => {
     event.stopPropagation();
 
-    const activeUserJSON = localStorage.getItem("ActiveUser");
-    const activeUser = activeUserJSON ? JSON.parse(activeUserJSON) : null;
-    const isGuest = activeUser ? activeUser.UserID === null : true;
+    const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
-    if (isGuest) {
+    if (user.UserID == null) {
       // User is a guest, delete from local storage
       deleteTaskById(TaskID); // Use the deleteTaskById function from the previous response
       updateTaskData(); // Trigger data update after deletion
@@ -102,11 +100,9 @@ export default function Tasks({
   ): void {
     event.stopPropagation();
     // Check if the user is a guest
-    const isGuest =
-      localStorage.getItem("ActiveUser") ===
-      '{"UserName":"ゲスト","UserID":null}';
+    const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
-    if (isGuest) {
+    if (user.UserID == null) {
       // User is a guest, toggle the completed status in local storage
       toggleTaskCompletedStatus(TaskID);
       // Update the UI or perform any other actions as needed
@@ -118,9 +114,7 @@ export default function Tasks({
         method: "put",
         maxBodyLength: Infinity,
         url:
-          window.location.protocol + "//" +
-          window.location.hostname +
-          ":3001/api/tasks/" +
+        window.location.origin + "/api/tasks/" +
           TaskID +
           "/complete",
         headers: {

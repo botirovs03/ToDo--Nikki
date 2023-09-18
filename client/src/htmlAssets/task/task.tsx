@@ -96,11 +96,9 @@ export default function Tasks({
   ): void {
     event.stopPropagation();
     // Check if the user is a guest
-    const isGuest =
-      localStorage.getItem("ActiveUser") ===
-      '{"UserName":"ゲスト","UserID":null}';
+    const user = JSON.parse(localStorage.getItem("ActiveUser") as string);
 
-    if (isGuest) {
+    if (user.UserID == null) {
       // User is a guest, toggle the completed status in local storage
       toggleTaskCompletedStatus(TaskID);
       // Update the UI or perform any other actions as needed
@@ -111,12 +109,7 @@ export default function Tasks({
       let config = {
         method: "put",
         maxBodyLength: Infinity,
-        url:
-          window.location.protocol + "//" +
-          window.location.hostname +
-          ":3001/api/tasks/" +
-          TaskID +
-          "/complete",
+        url: window.location.origin + "/api/tasks/" + TaskID + "/complete",
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -191,17 +184,19 @@ export default function Tasks({
         <div className={st.right}>
           <div
             className={
-              (new Date(taskdatas.Deadline) > new Date()) || Boolean(taskdatas.Completed)
+              new Date(taskdatas.Deadline) > new Date() ||
+              Boolean(taskdatas.Completed)
                 ? st.deadline
                 : st.deadlineExp
             }
           >
-            {(new Date(taskdatas.Deadline) > new Date()) || Boolean(taskdatas.Completed) ? (
+            {new Date(taskdatas.Deadline) > new Date() ||
+            Boolean(taskdatas.Completed) ? (
               formatDeadline(taskdatas.Deadline)
             ) : (
               <>
                 <FontAwesomeIcon icon={faFireFlameCurved} />{" "}
-                {formatDeadline(taskdatas.Deadline) }
+                {formatDeadline(taskdatas.Deadline)}
               </>
             )}
           </div>
