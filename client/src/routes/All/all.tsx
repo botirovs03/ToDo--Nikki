@@ -44,7 +44,7 @@ async function fetchTaskData() {
   const config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: window.location.origin + "api/all",
+    url: window.location.origin + "/api/all",
     headers: {
       Authorization: "Bearer " + token,
     },
