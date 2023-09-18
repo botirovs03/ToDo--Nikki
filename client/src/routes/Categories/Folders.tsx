@@ -55,7 +55,7 @@ const Folder = ({ categories, triggerFetch }: any) => {
         method: "put",
         maxBodyLength: Infinity,
         url:
-        window.location.origin + "1/api/categories/" +
+        window.location.origin + "/api/categories/" +
           category.CategoryID,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
