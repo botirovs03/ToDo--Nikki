@@ -18,7 +18,7 @@ router.post('/api/categories', authenticateUser, async (req, res) => {
         // Check if the category already exists for the user
         const checkCategoryQuery = `
             SELECT * FROM categories
-            WHERE userID = ? AND categoryName = ?
+            WHERE UserID = ? AND CategoryName = ?
         `;
         const categoryCheckResult = await connection.promise().query(checkCategoryQuery, [userID, categoryName]);
 
@@ -28,7 +28,7 @@ router.post('/api/categories', authenticateUser, async (req, res) => {
 
         // Insert the new category into the database
         const insertCategoryQuery = `
-            INSERT INTO categories (userID, categoryName)
+            INSERT INTO categories (UserID, CategoryName)
             VALUES (?, ?)
         `;
         const insertResult = await connection.promise().query(insertCategoryQuery, [userID, categoryName]);
@@ -86,7 +86,7 @@ router.delete('/api/categories/:categoryID', authenticateUser, async (req, res) 
         // Check if the category exists for the user
         const checkCategoryQuery = `
             SELECT * FROM categories
-            WHERE categoryID = ? AND userID = ?
+            WHERE CategoryID = ? AND UserID = ?
         `;
         const categoryCheckResult = await connection.promise().query(checkCategoryQuery, [categoryID, userID]);
 
@@ -97,7 +97,7 @@ router.delete('/api/categories/:categoryID', authenticateUser, async (req, res) 
         // Delete the category from the database
         const deleteCategoryQuery = `
             DELETE FROM categories
-            WHERE categoryID = ?
+            WHERE CategoryID = ?
         `;
         await connection.promise().query(deleteCategoryQuery, [categoryID]);
 

@@ -11,8 +11,8 @@ router.get("/api/tasks/upcoming", authenticateUser, (req, res) => {
   // Retrieve upcoming tasks associated with the specified userID
   const getUpcomingTasksQuery = `
         SELECT * FROM tasks
-        WHERE userID = ? AND completed = false AND deadline <= NOW()
-        ORDER BY deadline ASCn
+        WHERE UserID = ? AND Completed = false AND Deadline <= NOW()
+        ORDER BY Deadline ASC
     `;
 
   connection.query(getUpcomingTasksQuery, [userID], (err, tasksResult) => {
@@ -33,8 +33,8 @@ router.get("/api/tasks/overdue/:userID", authenticateUser, (req, res) => {
   // Retrieve overdue tasks associated with the specified userID
   const getOverdueTasksQuery = `
         SELECT * FROM tasks
-        WHERE userID = ? AND completed = false AND deadline < NOW()
-        ORDER BY deadline ASC
+        WHERE UserID = ? AND Completed = false AND Deadline < NOW()
+        ORDER BY Deadline ASC
     `;
 
   connection.query(getOverdueTasksQuery, [userID], (err, tasksResult) => {

@@ -15,7 +15,7 @@ router.post("/api/users", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const insertUserQuery = `INSERT INTO users (username, password, email) VALUES (?, ?, ?)`;
+    const insertUserQuery = `INSERT INTO users (Username, Password, Email) VALUES (?, ?, ?)`;
 
     connection.query(
       insertUserQuery,
@@ -67,7 +67,7 @@ router.post("/api/auth", async (req, res) => {
 
     // Find the user in the database
     connection.query(
-      "SELECT * FROM users WHERE email = ?",
+      "SELECT * FROM users WHERE Email = ?",
       [email],
       async (error, results) => {
         if (error) {
@@ -115,7 +115,7 @@ router.put("/api/users/:userID", authenticateUser, async (req, res) => {
 
   try {
     // Fetch the user's information from the database
-    const fetchUserQuery = "SELECT * FROM users WHERE userID = ?";
+    const fetchUserQuery = "SELECT * FROM users WHERE UserID = ?";
     connection.query(
       fetchUserQuery,
       [userIdToUpdate],
@@ -174,7 +174,7 @@ router.delete("/api/users/:userID", authenticateUser, async (req, res) => {
 
   try {
     // Fetch the user's information from the database
-    const fetchUserQuery = "SELECT * FROM users WHERE userID = ?";
+    const fetchUserQuery = "SELECT * FROM users WHERE UserID = ?";
     connection.query(fetchUserQuery, [userIdToDelete], (error, results) => {
       if (error) {
         console.error(error);
@@ -195,7 +195,7 @@ router.delete("/api/users/:userID", authenticateUser, async (req, res) => {
       }
 
       // Proceed with user deletion
-      const deleteUserQuery = "DELETE FROM users WHERE userID = ?";
+      const deleteUserQuery = "DELETE FROM users WHERE UserID = ?";
       connection.query(deleteUserQuery, [userIdToDelete], (error, results) => {
         if (error) {
           console.error(error);
@@ -216,7 +216,7 @@ router.get("/api/checkuser", authenticateUser, (req, res) => {
     try {
       const userId = req.userId;
       // Define the SQL query to retrieve user data
-      const sql = "SELECT * FROM users WHERE userID = ?";
+      const sql = "SELECT * FROM users WHERE UserID = ?";
       
       // Execute the query with the userId parameter
       connection.query(sql, [userId], (error, results) => {

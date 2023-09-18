@@ -15,7 +15,7 @@ FROM
 LEFT JOIN
   tasks t ON c.CategoryID = t.CategoryID
 WHERE
-  c.userID = ?
+  c.UserID = ?
 GROUP BY
   c.CategoryID;
     `;
@@ -38,7 +38,7 @@ router.get("/api/category/tasks/:categoryID", authenticateUser, (req, res) => {
   // Retrieve tasks associated with the specified categoryID
   const getTasksQuery = `
         SELECT * FROM tasks
-        WHERE categoryID = ?
+        WHERE CategoryID = ?
     `;
 
   connection.query(getTasksQuery, [categoryID], (err, tasksResult) => {
@@ -59,7 +59,7 @@ router.get("/api/tasks/user/:userID", authenticateUser, (req, res) => {
   // Retrieve tasks associated with the specified userID
   const getTasksQuery = `
         SELECT * FROM tasks
-        WHERE userID = ?
+        WHERE UserID = ?
     `;
 
   connection.query(getTasksQuery, [userID], (err, tasksResult) => {
