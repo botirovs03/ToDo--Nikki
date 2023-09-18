@@ -1,21 +1,17 @@
 const mysql = require('mysql2');
+const knex = require('knex');
 
-const connection = mysql.createConnection({
-  // host: 'localhost',
-  // user: 'root',
-  // password: 'root',
-  // database: 'todo',
-
-  // host: '192.168.100.75',
-  // user: 'bsremote',
-  // password: '3b3s2001Remote##',
-  // database: 'todo'
-
+// Define your database connection configuration in a single object
+const dbConfig = {
   host: 'sql.freedb.tech',
   user: 'freedb_nikkiUser',
   database: 'freedb_todonikki',
-  password: 'kTaR$Z7S83pN#vN'
-});
+  password: 'kTaR$Z7S83pN#vN',
+};
+
+// Create a MySQL connection using mysql2
+const connection = mysql.createConnection(dbConfig);
+
 
 
 connection.connect((err) => {
@@ -26,4 +22,4 @@ connection.connect((err) => {
   console.log('Connected to the database as id ' + connection.threadId);
 });
 
-module.exports = connection;
+module.exports = { connection, dbConfig };
