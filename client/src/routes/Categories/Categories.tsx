@@ -123,7 +123,7 @@ export default function Categories() {
                 onChange={handleChange}
               />
             </div>
-            <button type="submit"></button>
+            <button type="submit">作成</button>
           </div>
         </form>
 
