@@ -16,6 +16,7 @@
   font-family: Inter;
   /* line-height: normal; */
   padding: 20px;
+  padding-top: 40px;
   padding-right: 6px;
   /* border: 1px solid black; */
   /* height: 120px; */
@@ -40,12 +41,13 @@
   transform: scale(1.1);
 }
 
-/* h1 {
-  font-size: 40px;
+h1 {
+  font-size: 30px;
   font-weight: 600;
-} */
+}
 
 .filters {
+  margin-top: 10px;
   display: flex;
   justify-content: space-between;
   gap: 5px;
@@ -79,4 +81,11 @@ label {
 .my-float{
   font-size: large;
   font-weight: bold;
+}
+
+@media screen and (max-width: 660px) {
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+  }
 }
