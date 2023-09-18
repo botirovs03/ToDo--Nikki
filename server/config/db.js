@@ -6,10 +6,15 @@ const connection = mysql.createConnection({
   // password: 'root',
   // database: 'todo',
 
-  host: '192.168.100.75',
-  user: 'bsremote',
-  password: '3b3s2001Remote##',
-  database: 'todo'
+  // host: '192.168.100.75',
+  // user: 'bsremote',
+  // password: '3b3s2001Remote##',
+  // database: 'todo'
+
+  host: 'sql.freedb.tech',
+  user: 'freedb_nikkiUser',
+  database: 'freedb_todonikki',
+  password: 'kTaR$Z7S83pN#vN'
 });
 
 
