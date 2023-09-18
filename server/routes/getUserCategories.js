@@ -1,6 +1,6 @@
 const express = require("express");
 const authenticateUser = require("../middleware/authenticateUser");
-const connection = require("../config/db");
+const {connection} = require("../config/db");
 const router = express.Router();
 
 router.get("/api/categories", authenticateUser, (req, res) => {

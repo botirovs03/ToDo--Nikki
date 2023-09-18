@@ -137,3 +137,16 @@
   border: none;
   border-bottom: 2px solid black;
 }
+
+.folderSubmit {
+  background-color: #00000000;
+  outline: none;
+  border: none;
+  color: #0d6efd;
+  opacity: 0.6;
+}
+
+.folderSubmit:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
