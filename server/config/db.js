@@ -10,6 +10,7 @@ const connection = mysql.createConnection({
   user: 'bsremote',
   password: '3b3s2001Remote##',
   database: 'todo',
+  connectTimeout: 2000,
 });
 
 
