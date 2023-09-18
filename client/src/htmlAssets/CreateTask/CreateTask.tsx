@@ -271,8 +271,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
         let config = {
           method: "get",
           maxBodyLength: Infinity,
-          url:
-            window.location.origin + "/api/tasks/" + taskID,
+          url: window.location.origin + "/api/tasks/" + taskID,
           headers: {
             Authorization: "Bearer " + token,
           },
@@ -344,7 +343,6 @@ const CreateTask: React.FC<CreateTaskProps> = ({
                     value={task.title}
                     onChange={handleInputChange}
                     required
-                    autoFocus
                   />
                   <div className={styles.underline}></div>
                   <label className={styles.label}>
