@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
   user: 'bsremote',
   password: '3b3s2001Remote##',
   database: 'todo',
-  connectTimeout: 2000,
+  connectTimeout: 40000,
   reconnect: {
     maxDelay: 2000, // Maximum delay between reconnection attempts (in milliseconds)
     initialDelay: 1000, // Initial delay for the first reconnection attempt (in milliseconds)
