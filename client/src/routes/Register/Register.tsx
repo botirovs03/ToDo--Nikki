@@ -51,7 +51,7 @@ const Register: React.FC<RegisterProps> = () => {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://localhost:3001/api/users",
+      url: window.location.origin+"/api/users",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
@@ -69,7 +69,7 @@ const Register: React.FC<RegisterProps> = () => {
         config = {
           method: "post",
           maxBodyLength: Infinity,
-          url: "http://localhost:3001/api/auth",
+          url: window.location.origin+"/api/auth",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
