@@ -56,7 +56,7 @@ router.put("/api/tasks/:taskID", authenticateUser, (req, res) => {
   // Update the task in the database
   const updateTaskQuery = `
         UPDATE tasks
-        SET taskName = ?, description = ?, priority = ?, deadline = ?, completed = ?, CategoryID = ?
+        SET taskName = ?, Description = ?, Priority = ?, Deadline = ?, Completed = ?, CategoryID = ?
         WHERE taskID = ?
     `;
 
@@ -88,7 +88,7 @@ router.delete("/api/tasks/:taskID", authenticateUser, (req, res) => {
   // Delete the task from the database
   const deleteTaskQuery = `
         DELETE FROM tasks
-        WHERE taskID = ?
+        WHERE TaskID = ?
     `;
 
   connection.query(deleteTaskQuery, [taskID], (err, result) => {
@@ -108,9 +108,9 @@ router.put("/api/tasks/:taskID/complete", authenticateUser, (req, res) => {
 
   // Retrieve the current completion status of the task
   const getCompletionStatusQuery = `
-        SELECT completed
+        SELECT Completed
         FROM tasks
-        WHERE taskID = ?
+        WHERE TaskID = ?
     `;
 
   connection.query(getCompletionStatusQuery, [taskID], (err, rows) => {
@@ -135,8 +135,8 @@ router.put("/api/tasks/:taskID/complete", authenticateUser, (req, res) => {
     // Update the task with the new completion status
     const updateCompletionStatusQuery = `
             UPDATE tasks
-            SET completed = ?, completedDate = ?
-            WHERE taskID = ?
+            SET Completed = ?, CompletedDate = ?
+            WHERE TaskID = ?
         `;
 
     connection.query(
