@@ -1,0 +1,119 @@
+*,
+*::before,
+*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #F3F2F1;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    display: block;
+    color: #0B0502;
+    font-family: Inter;
+    font-size: 1.8rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 7px;
+}
+
+span {
+    margin-bottom: 13px;
+    text-transform: capitalize;
+    color: #585858;
+    font-family: Inter;
+    font-size: .9rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.45px;
+}
+
+label {
+    display: block;
+    margin-bottom: 9px;
+    color: #0B0502;
+    font-family: Inter;
+    font-size: .9rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: capitalize;
+    letter-spacing: 0.26px;
+}
+
+input {
+    display: block;
+    margin-bottom: 15px;
+    width: 319px;
+    height: 39px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.10);
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30) inset;
+    outline: none;
+    border: none;
+    padding: 15px 0 9px 15px;
+
+    color: #585858;
+    font-family: Inter;
+    font-size: .8rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.45px;
+}
+
+button {
+    margin: 30px 0 20px 0;
+    width: 319px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: #2564CF;
+    border: none;
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.12) inset;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+a {
+    margin-left: 10px;
+    color: #2564CF;
+    font-family: Inter;
+    font-size: .9rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-decoration: none;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 505px;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    transition: transform 0.3s ease-in-out;
+}
+
+button:hover {
+    transform: scale(1.02);
+}
