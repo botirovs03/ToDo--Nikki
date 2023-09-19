@@ -1,0 +1,177 @@
+.taskDetail {
+  position: relative;
+  font-family: inter;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  height: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #ccc;
+  padding: 30px 25px;
+  background-color: #fff;
+  margin-top: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 40;
+  opacity: 0; /* Initially, set opacity to 0 */
+  transition: opacity 0.2s ease-in-out, height 0.2s ease-in-out; /* Add a transition effect */
+  overflow-y: scroll; /* Enable vertical scrolling */
+  scrollbar-width: thin; /* Set custom scrollbar width (may not be supported in all browsers) */
+  scrollbar-color: #888 transparent; /* Set custom scrollbar color (thumb and track) */
+}
+
+.taskDetail.active {
+  height: 50%;
+  opacity: 1; /* When active class is added, fade-in the element */
+}
+
+.taskDetail.closed {
+  height: 0%;
+  opacity: 0; /* When active class is added, fade-in the element */
+  transform: scale(0.1);
+}
+
+.critical {
+  color: #777 !important;
+}
+
+.normal {
+  color: #777 !important;
+}
+
+.low {
+  color: #777 !important;
+}
+
+.critical::before {
+  content: "\25CF"; /* Unicode character escape sequence */
+  color: red;
+  margin-right: 5px;
+}
+
+.normal::before {
+  content: "\25CF"; /* Unicode character escape sequence */
+  color: #045776;
+  margin-right: 5px;
+}
+
+.low::before {
+  content: "\25CF"; /* Unicode character escape sequence */
+  color: green;
+  margin-right: 5px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.closeButton:hover {
+  transform: scale(1.1);
+}
+
+/* Style for the scrollbar thumb (handle) */
+.taskDetail::-webkit-scrollbar-thumb {
+  background-color: #888; /* Set custom thumb color */
+  border-radius: 5px; /* Set custom thumb border radius */
+}
+
+/* Style for the scrollbar track (bar) */
+.taskDetail::-webkit-scrollbar-track {
+  background-color: transparent; /* Set custom track color */
+}
+
+/* Hide scrollbar buttons (arrows) */
+.taskDetail::-webkit-scrollbar-button {
+  display: none;
+}
+.taskDetail div span {
+  font-weight: 800;
+  padding-left: 20px;
+  color: black;
+  margin-right: 5px;
+}
+.taskDetailBack {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 39;
+  background-color: #8989894e;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #686e7b;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  padding-bottom: 15px;
+}
+
+.noDesc {
+  color: #999;
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+.description div {
+  font-size: 16px;
+  margin: 10px auto auto -10px;
+}
+
+.deadline {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.deadlineExp {
+  font-size: 14px;
+  color: red;
+  margin-bottom: 5px;
+}
+
+.category {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.priority {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.completed {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.completedDate {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+@media screen and (max-width: 756px) {
+  .taskDetail {
+    width: 90%;
+    height: 50%;
+    padding: 20px 10px;
+    background-color: #fff;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+}

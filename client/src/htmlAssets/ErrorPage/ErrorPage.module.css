@@ -1,0 +1,30 @@
+.errorPage {
+    height: 90%;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.errorImage {
+    width: 100%;
+    height: 100%;
+}
+
+.errorContents {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+
+.message {
+    font-size: 5vw;
+    color: #3F3D56;
+    font-weight: bold;
+}
+
+.icon {
+    width: 50%;
+    border-radius: 20%;
+}
