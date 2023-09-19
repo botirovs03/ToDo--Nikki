@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+/* Remove default appearance */
+.formSelect .option {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.formSelect {
+    outline: none;
+    padding: 10px;
+    background-color: lightblue;
+    font-family: Arial, sans-serif;
+    gap: 1em;
+    height: 40px;
+    background: #fff;
+    padding: 5px;
+    width: 100%;
+    width: 200px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.option {
+    display: none;
+    cursor: pointer;
+    display: flex;
+    height: 55px;
+    cursor: pointer;
+    padding: 0 16px;
+    border-radius: 8px;
+    align-items: center;
+    background: #fff;
+}
+
+.option:hover {
+    background: #F2F2F2;
+}

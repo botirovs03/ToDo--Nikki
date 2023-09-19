@@ -1,0 +1,17 @@
+:root{
+  --line_color : #555555 ;
+  --back_color : #FFECF6  ;
+  --text_color : #3F3D56 ;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #F3F2F1;
+}
