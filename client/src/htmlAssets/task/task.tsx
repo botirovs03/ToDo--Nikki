@@ -221,7 +221,7 @@ export default function Tasks({
     </div>
   ));
 
-  return <div>{TaskItems}</div>;
+  return <div>{taskdata.length ? TaskItems : <div>タスクはない</div>}</div>;
 }
 
 function deleteTaskById(taskID: any) {
